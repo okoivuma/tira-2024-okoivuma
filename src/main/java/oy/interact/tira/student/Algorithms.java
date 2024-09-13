@@ -13,7 +13,9 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array) {
-      // TODO: Implement this.
+
+      insertionSort(array, 0, array.length);
+      
    }
 
    ///////////////////////////////////////////
@@ -21,7 +23,14 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array, int fromIndex, int toIndex) {
-      // TODO: Implement this.
+      
+      // fromindex + 1 because no need to compare first value with itself
+      for (int i = fromIndex + 1; i < toIndex; i++) {
+         int index = i;
+         while (index > fromIndex && array[index-1].compareTo(array[index]) > 0) {
+            MyClass.swap(array, index, index);
+         }
+      }
    }
 
    //////////////////////////////////////////////////////////
