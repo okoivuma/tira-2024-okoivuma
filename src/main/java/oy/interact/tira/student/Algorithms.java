@@ -28,7 +28,8 @@ public class Algorithms {
       for (int i = fromIndex + 1; i < toIndex; i++) {
          int index = i;
          while (index > fromIndex && array[index-1].compareTo(array[index]) > 0) {
-            MyClass.swap(array, index, index);
+            MyClass.swap(array, index, index - 1);
+            index--;
          }
       }
    }
