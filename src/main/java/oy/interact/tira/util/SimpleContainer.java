@@ -182,9 +182,11 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void sort() {
-		// TODO: call your sorting algorithm with array, update sorted status of this container!
-		// You may want to check if the array has any elements before calling sort.
-		// Also note that the array here has elements only between 0..<count!
+	 
+		if (array != null && count > 0) {
+			Algorithms.insertionSort(array, 0, count);
+			sorted = true;
+		}
 	}
 
 	@Override
