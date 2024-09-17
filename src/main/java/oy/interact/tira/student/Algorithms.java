@@ -63,11 +63,14 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> void reverse(T[] array, int fromIndex, int toIndex) {
-      int midPoint = (toIndex + fromIndex) / 2;
-      
-      for (int i = fromIndex; i < midPoint; i++) {
-         MyClass.swap(array, i, toIndex - 1);
-         toIndex--;
+     
+      int leftIndex = fromIndex;
+      int rightIndex = toIndex - 1;
+
+      while (leftIndex < rightIndex) {
+         MyClass.swap(array, leftIndex, rightIndex);
+         rightIndex--;
+         leftIndex++;
       }
    }
 
