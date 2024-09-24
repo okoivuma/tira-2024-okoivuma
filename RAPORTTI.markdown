@@ -65,6 +65,26 @@ Kääntämisen aikakompleksisuusluokka on O(n), koska se käy taulukon läpi vai
 
 ## 02-TASK
 
+Tehtävän 2 tekemisessä ei suurempia haasteita tullut vastaan, ja rutiini ohjelmointiin tuntuu palautuvan. Tehtävän askeleet olivat hyvin ohjeistettuja ja koodiin pääsi nopeasti kiinni. 
+
+SimpleContainer.add metodi käy läpi taulukkoa löytääkseen sijoituspaikan parametrinä saamaalleen elementille. Metodi tarkistaa, ettei taulukossa ole elementtiä jo valmiiksi, jotta duplikaateilta elementeiltä vältytään. Jos elementtiä ei ennaltaan ole taulukossa, se lisätään taulukon loppuun.
+
+Mikäli taulukon koko on loppumassa kesken, metodi uudelleenallokoi taulukon muistin kaksinkertaiseksi. On järkevää allokoida muistia kerrallaan reilusti, jotta allokointia tarvitsisi tehdä mahdollisimman harvoin. Tämä johtuu siitä, että muistin uudelleenallkointi on hidasta.
+
+Metodi käy taulukon läpi kertaalleen ja sen aikakompleksisuus on lineaarinen taulukon koon suhteen. Näin ollen metodin aikakompleksisuusluokka on lineaarinen O(n).
+
+
+Myös tehtävässä toteuttamani hakualgoritmit E get(E element), int indexOf(E element, Comparator<E>), int findIndex(Predicate <E>) ja E find(Predicate<E>) ovat aikakompleksisuudeltaan lineaarisia O(n), sillä ne käyvät taulukon indeksit läpi yksi kerrallaan, ja suoritusaika riippuu suoraan verrannollisesti taulukon koosta.
+
+
+![kuva](task-02-searchPerformance.png)
+
+Kuvasta näkee, että S eli hakuajat nousevat lineaarisesti. Täyttöajat kasvavat selvästi eksponentiaalisesti. Tämä johtuu siitä, että taulukon täyttyessä allokoidaan muistia tuplasti enemmän. Näinollen allokoitava muistin määrä kasvaa eksponentiaalisesti ja taulukon täyttö hidastuu.
+
+Tira Coders Logissa huomataan varsinkin suurilla tietomäärillä, että eri algoritmien suoritusajat vaihtelevat huomattavasti. Erityisesti kokonimen sekä koodarinimen lajittelu on hidasta insertionSort metodin takia. Kyseisen metodin aikakompleksisuus on neliöllinen O(n^2), joten se on hidasta. Järjestyksen kääntäminen tapahtuu nopeasti, sillä se hyödyntää reverse metodia, joka on lineaarinen O(n).
+
+Tästä syystä alkioiden järjestyksen vaihtaminen päinvastaiseksi on tehokkaampaa tehdä kääntämällä, kuin lisäyslajittelua hyödyntämällä, sillä kääntämisen aikakompleksisuus on aina vähintään yhtätehokasta lajitteluun verrattuna.
+
 ## 03-TASK
 
 ## 04-TASK
