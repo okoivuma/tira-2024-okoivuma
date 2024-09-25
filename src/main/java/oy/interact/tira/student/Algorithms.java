@@ -98,7 +98,9 @@ public class Algorithms {
       if (impl == BSearchImplementation.RECURSIVE) {
          return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1);
       }
-      // TODO: IF implementing iterative binary search, call that here.
+      if (impl == BSearchImplementation.ITERATIVE) {
+         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex-1);
+      }
       return -1;
    }
 
@@ -121,6 +123,26 @@ public class Algorithms {
       }
    }
 
+   // iteratiivinen toteutus Combarablea käyttäen
+
+   public static <T extends Comparable<T>> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex) {
+      int middle = 0;
+
+      while (fromIndex <= toIndex) {
+
+         middle = fromIndex + (toIndex - fromIndex) / 2;
+
+         if (aValue.compareTo(fromArray[middle]) < 0) {
+            toIndex = middle - 1;
+         } else if (aValue.compareTo(fromArray[middle]) > 0){
+            fromIndex = middle + 1;
+         } else {
+            return middle;
+         }
+      }
+      return -1;
+   }
+
    ///////////////////////////////////////////
    // Binary search using a Comparator
    ///////////////////////////////////////////
@@ -133,7 +155,9 @@ public class Algorithms {
       if (impl == BSearchImplementation.RECURSIVE) {
          return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1, comparator);
       }
-      // TODO: IF implementing iterative binary search, call that here.
+      if (impl == BSearchImplementation.ITERATIVE) {
+         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex - 1, comparator);
+      }
       return -1;
    }
 
@@ -158,7 +182,20 @@ public class Algorithms {
    }
 
    public static <T> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      // TODO: Iterative implementation if grade interests you:
+      int middle = 0;
+
+      while (fromIndex <= toIndex) {
+
+         middle = fromIndex + (toIndex - fromIndex) / 2;
+
+         if (comparator.compare(aValue, fromArray[middle]) < 0) {
+            toIndex = middle - 1;
+         } else if (comparator.compare(aValue, fromArray[middle]) > 0){
+            fromIndex = middle +1;
+         } else {
+            return middle;
+         }
+      }
       return -1;
    }
 
