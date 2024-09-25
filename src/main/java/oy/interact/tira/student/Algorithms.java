@@ -102,8 +102,23 @@ public class Algorithms {
       return -1;
    }
 
+
+   // Lähde: luentomateriaalin pseudokoodi
    public static <T extends Comparable<T>> int binarySearchRecursive(T aValue, T[] fromArray, int fromIndex, int toIndex) {
-      return -1;
+     if (fromIndex == toIndex) {
+         if (fromArray[fromIndex].equals(aValue)) {
+            return fromIndex;
+         } else {
+            return -1;
+         }
+     }
+      int middle = fromIndex + (toIndex - fromIndex) / 2;
+
+      if (aValue.compareTo(fromArray[middle]) <= 0 ) {
+         return binarySearchRecursive(aValue, fromArray, fromIndex, middle);
+      } else {
+         return binarySearchRecursive(aValue, fromArray, middle + 1, toIndex);
+      }
    }
 
    ///////////////////////////////////////////
@@ -111,7 +126,7 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      return -1;
+      return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex, comparator);
    }
 
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator, BSearchImplementation impl) {
@@ -124,8 +139,22 @@ public class Algorithms {
 
    public static <T> int binarySearchRecursive(T aValue, T[] fromArray, int fromIndex,
          int toIndex, Comparator<T> comparator) {
-      // TODO: Recursive implementation
-      return -1;
+      
+      if (fromIndex == toIndex) {
+         if (comparator.compare(aValue, fromArray[fromIndex]) == 0) {
+            return fromIndex;
+         } else {
+            return -1;
+         }
+      }     
+      
+      int middle = fromIndex + (toIndex - fromIndex) / 2;
+
+      if (comparator.compare(aValue, fromArray[middle]) <= 0) {
+         return binarySearchRecursive(aValue, fromArray, fromIndex, middle, comparator);
+      } else {
+         return binarySearchRecursive(aValue, fromArray, middle + 1, toIndex, comparator);
+      }
    }
 
    public static <T> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
