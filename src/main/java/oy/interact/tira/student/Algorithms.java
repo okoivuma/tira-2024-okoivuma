@@ -128,7 +128,7 @@ public class Algorithms {
    public static <T extends Comparable<T>> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex) {
       int middle = 0;
 
-      while (fromIndex <= toIndex) {
+      while (fromIndex != toIndex) {
 
          middle = fromIndex + (toIndex - fromIndex) / 2;
 
@@ -139,6 +139,10 @@ public class Algorithms {
          } else {
             return middle;
          }
+      }
+
+      if (aValue.equals(fromArray[fromIndex])) {
+         return fromIndex;
       }
       return -1;
    }
@@ -184,7 +188,7 @@ public class Algorithms {
    public static <T> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
       int middle = 0;
 
-      while (fromIndex <= toIndex) {
+      while (fromIndex != toIndex) {
 
          middle = fromIndex + (toIndex - fromIndex) / 2;
 
@@ -195,6 +199,9 @@ public class Algorithms {
          } else {
             return middle;
          }
+      }
+      if (comparator.compare(aValue, fromArray[fromIndex]) == 0) {
+         return fromIndex;
       }
       return -1;
    }

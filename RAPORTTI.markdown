@@ -87,6 +87,16 @@ Tästä syystä alkioiden järjestyksen vaihtaminen päinvastaiseksi on tehokkaa
 
 ## 03-TASK
 
+**Hakujen kokeilu ja analyysi**
+
+Kokeilin askel 3 ohjeiden mukaan hakea TIRA Coder sovelluksella koodareita nopealla ja hitaalla haulla. Suoritin hakuja listan alusta sekä keskeltä, että lopusta.
+
+Hitaassa haussa (haku ilman exact searchia) huomasin, että mitä lähempänä listan alkua on, sitä nopeampia hakuajat ovat. Listan ensimmäisten joukossa olevien koodarien hakuun aikaa meni vain 0-1 ms, keskivaiheilla olevan koodarin hakuun kesti noin 6 ms, ja listan viimeisenä olevan koodarin hakuun menikin jo 17 ms.
+
+Tämä ilmiö johtuu siitä, että järjestelmän perushaku suoritetaan lineaarisella haulla. Eli käytännössä hakuaika kasvaa lineaarisesti suhteessa aineiston kokoon.
+
+Exact searchia käyttäessä hakuajaksi saatiin 0ms joka hakukerralla. Exact search käyttää tässä tehtävässä luotua puolitushakua, joka näyttäisi olevan selvästi tehokkaampi, kuin lineaarinen haku. Lisäksi puolitushakua käyttäessä hakuaikaan ei vaikuta se, että missä vaiheessa taulukkoa haettava koodari on. 
+
 ## 04-TASK
 
 ## 05-TASK
