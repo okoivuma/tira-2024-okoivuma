@@ -87,6 +87,15 @@ Tästä syystä alkioiden järjestyksen vaihtaminen päinvastaiseksi on tehokkaa
 
 ## 03-TASK
 
+Tässä tehtävässä toteutin puolitushakualgoritmin rekursiivisesti sekä iteratiivisesti ja lisäsin metodeille tarvittavat kutsut valmiisiin metodeihin. Molemmat toteutukset toteutin käyttäen sekä Comparable, että Comparator rajapintaa. Eri rajapintojen välillä metodit ovat hyvin lähellä toisiaan, sillä eroavaisuus on lähinnä vain vertailun kutsuissa.
+Lopuksi täydensin SimpleContainer.indexOf(E, Comparator<E>) metodia siten, että taulukon ollessa lajiteltu, se kutsuu nopeampaa puolitushakua lineaarisen haun sijaan.
+
+Toteuttamissani puolitushakualgoritmien silmukoissa taulukko jaettiin joka kerta puoleen, jolloin aikakompleksisuudeksi saatiin logaritminen O(log n)
+
+Comparatoria käyttäessä pienenä haasteena ilmeni yhtäsuuruuden vertailu, sillä Comparatorin equals metodi ei toiminut odottamallani tavalla. Tämä ongelma ratkesi, kun otin selvää metodin toiminnasta Comparator rajapinnan dokumentaatiosta.
+
+Lopulta käytin yhtäsuuruuden vertailuna compare metodia. Compare metodin palauttaessa nollan elementit ovat yhtäsuuria.
+
 **Hakujen kokeilu ja analyysi**
 
 Kokeilin askel 3 ohjeiden mukaan hakea TIRA Coder sovelluksella koodareita nopealla ja hitaalla haulla. Suoritin hakuja listan alusta sekä keskeltä, että lopusta.
@@ -95,7 +104,23 @@ Hitaassa haussa (haku ilman exact searchia) huomasin, että mitä lähempänä l
 
 Tämä ilmiö johtuu siitä, että järjestelmän perushaku suoritetaan lineaarisella haulla. Eli käytännössä hakuaika kasvaa lineaarisesti suhteessa aineiston kokoon.
 
-Exact searchia käyttäessä hakuajaksi saatiin 0ms joka hakukerralla. Exact search käyttää tässä tehtävässä luotua puolitushakua, joka näyttäisi olevan selvästi tehokkaampi, kuin lineaarinen haku. Lisäksi puolitushakua käyttäessä hakuaikaan ei vaikuta se, että missä vaiheessa taulukkoa haettava koodari on. 
+Exact searchia käyttäessä hakuajaksi saatiin 0ms joka hakukerralla, mikä tarkoittaa sitä, että hakuaika oli niin pieni, että se pyöristyi nollaan. Exact search käyttää tässä tehtävässä luotua puolitushakua, joka näyttäisi olevan selvästi tehokkaampi, kuin lineaarinen haku. Lisäksi puolitushakua käyttäessä hakuaikaan ei vaikuta se, että missä vaiheessa taulukkoa haettava koodari on.
+
+Tämä huomio on tärkeä, sillä puolitushaun tulisi teoriassakin olla tehokkaampi, kuin lineaarisen haun, sillä sen aikakompleksisuus on logaritminen. O(log n) siis osoittautuu tehokkaammaksi, kuin lineaarinen O(n).
+
+**Täytön, järjestämisen ja puolitushaun suoritusajat**
+![kuva](task-03-binSearchGraph.png)
+
+Kuvaajassa esitetään käyrät täytölle(fill) ja järjestämiselle(sort) millisekunteina, sekä puolitushaulle (search) mikrosekunteina.
+
+Jos kuvaajan hakuaikoja vertaa edellisen tehtävän vastaavaan kuvaajaan, huomataan, että hakuajat ovat selvästi pienemmät. Hakuajan alussa oleva aikapiikki johtuu ohjelman kääntämisesta, tietokoneen toiminnasta testiä aloittaessa ja testiin valmistautumisesta. 
+
+Puolitushaun käyttöehtona on se, että taulukko on valmiiksi lajiteltu. Tämä johtuu puolitushaun toimintaperiaatteesta, sillä se hyödyntää taulukon järjestystä vertaillessaan, onko haettava arvo suurempi vai pienempi, kuin taulukon keskikohta.
+
+Edellisessä tehtävässä toteutettu lineaarinen haku toimii myös lajittelemattoman aineiston tapauksessa, sillä se käy haettavat arvot läpi yksitellen.
+
+Tehokkuudensa ansiosta puolitushakua kannattaa käyttää lineaarisen haun sijaan, mikäli aineisto on lajiteltu. Esimerkkinä tästä tilanteesta on mainitsemani SimpleContainer.indexOf metodi, joka tarkistaa onko taulukkoa lajiteltu. Mikäli on, kutsutaan puolitushaku ja muussa tapauksessa käytetään lineaarista hakua.
+
 
 ## 04-TASK
 
