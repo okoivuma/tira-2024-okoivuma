@@ -124,6 +124,102 @@ Tehokkuudensa ansiosta puolitushakua kannattaa käyttää lineaarisen haun sijaa
 
 ## 04-TASK
 
+Tässä tehtävässä toteutin pino rajapinnan StackInterface omaan toteutusluokkaani StackImplementation. Lisäksi hyödynsin toteutettua pinoa toteuttamalla sulkeidentarkistus algoritmin ohjeiden mukaisesti.
+
+Tehtävässä vaikeinta oli poikkeuksien käsittely, sillä sen harjoittelu on ollut kohdallani liian vähäistä. Tätä tehtävää tehdessä sain hyvää kertausta poikkeusten heittämisen sekä käsittelyyn liittyen. Live luennon poikkeuksia koskevan kertauksen avulla sain paljon oppia aiheeseen liittyen.
+
+Myös StringBuilderin käyttöön liittyen kertaaminen oli tervettulletta, sillä aiemmin olen toteuttanut toString() metodit String luokkaa hyödyntäen. Tehtävässä opin, että StringBuilderin käyttö on todella paljon tehokkaampaa aiemmin käyttämääni toteutukseen verrattuna.
+
+
+Pino toteutukssani seurasin tarkasti ohjeita ja se vastaakin tehtävänannon aikakompleksisuusvaatimuksia. Metodit ovat aikakompleksisuudeltaan vakioita, lukuunottamatta push(), mikäli joudutaan reallokoimaan ja toString(). Nämä kaksi ovat aikakompleksisuudeltaan lineaarisia.
+
+Toteutuksessani on kolme yksityistä jäsenmuuttujaa: 
+Object[] itemarray - tietorakenteen sisäinen taulukko
+
+int top - muuttuja, joka kertoo indeksin, johon viimeisin elementti on lisätty
+
+int DEFAULT_STACK_SIZE = 20 - taulukon oletuskoko
+
+**Muodostimet**
+
+Pino toteutuksessani on kaksi muodostinta: parametriton ja parametrillinen
+
+Parametriton yksinkertaisuudessaan luo pinon taulukon oletuskapasiteetin kokoiseksi ja alustaa top muuttujan arvoon -1.
+
+
+Parametrillinen saa parametrina taulukon koon.
+Tämä versio tarkistaa, että parametrinä saatu koko on suurempi, kuin 0. Mikäli tämä ei toteudu parametri heittää poikkeuksen
+IllegalArgumentException("Stack size must be greater than 0.").
+Jos parametrina saatu koko on oikeellinen, luodaan pinon taulukko annetun kokoiseksi ja alustetaan top muuttuja arvoon -1.
+
+
+Top muuttuja asetetaan arvoon -1, koska se indikoi, että pino on tyhjä.
+
+**Metodit**
+
+**capacity()**
+Aikakompleksisuus O(1)
+
+Metodi ainoastaan palauttaa pinon sisäisen taulukon koon, joten se ei sisällä silmukoita tai vaihtelevia input aineistoja.
+Metodi suoritetaan aina vakioajassa, joten sen aikakompleksisuus on O(1).
+
+**push(E element)**
+Aikakompleksisuus O(n)
+
+Puskuoperaatio itsessään on aikakompleksisuudeltaan vakio O(1), sillä se ainoastaan lisää uuden elementin taulukon top indeksiin ja kasvattaa top-arvoa yhdellä, jos elementti ei ole tyhjä (null). Jos elementti on tyhjä metodi heittää poikkeuksen NullPointerException("Push must not be null.").
+
+Kuitenkin mikäli taulukko on täynnä, joudutaan lisäämään taulukon kokoa. Taulukon reallokointi edellyttää sen jokaisen elementin läpikäymistä ja kopioimista uuteen taulukkoon silmukassa, jolloin aikakompleksisuus on lineaarinen O(n).
+
+Parhaimmillaan metodin aikakompleksisuus on O(1), mutta pahimmassa tapauksessa taulukon ollessa täynnä aikakompleksisuus on O(n).
+
+**pop()**
+Aikakompleksisuus O(1)
+
+Metodi poistaa pinosta päälimmäisen elementin, jos pino ei ole tyhjä ja vähentää top-arvoa yhdellä. Jos pino on tyhjä metodi heittää poikkeuksen
+IllegalStateException("Can't pop from an empty stack.")
+Metodissa ei ole vaihtelevaa inputin kokoa eikä silmukoita, joten sen suoritusaika on aina vakio O(1).
+
+**peek()**
+Aikakompleksisuus O(1)
+
+Peek metodi palauttaa pinosta päälimmäisen elementin poistamatta sitä pinosta. Mikäli pino on tyhjä metodi heittää poikkeuksen IllegalStateException("Stack is empty.").
+Metodin suoritusaika on aina vakio, sillä metodilla ei ole syötettä, josta se olisi riippuvainen, eikä toteutuksessa ole silmukoita.
+
+**size()**
+Aikakompleksisuus O(1)
+
+Size metodin ainoa toiminto on palauttaa kutsujalle pinon reaaliaikainen koko. Suoritusaika on vakio, koska metodin suoritusaika ei riipu minkään syötteen koosta, eikä metodissa ole silmukoita.
+
+**isEmpty()**
+Aikakompleksisuus O(1)
+
+Metodi tarkistaa onko pino tyhjä vai ei. Mikäli top-muuttujan arvo on -1, pino on tyhjä ja metodi palauttaa true. Muussa tapauksessa palautetaan false, sillä pino ei ole silloin tyhjä. 
+
+Metodi ainoastaan palauttaa boolean-arvon kutsujalle, eikä siinä ole silmukoita ja se ei ole riippuvainen minkään aineiston koosta, joten suoritusaika on vakio.
+
+**clear()**
+Aikakompleksisuus O(1)
+
+Tyhjennysmetodi luo pinon sisäisen taulukon tilalle uuden tyhjän taulukko olion, jonka koko on attribuuteissa määritelty vakio. Myös top-muuttujan arvoksi asetetaan -1, sillä taulukko on nyt tyhjä.
+
+Metodi ei iteroi taulukon elementtien läpi, vaan se suoraan alustaa taulukon tilalle uuden tyhjän taulukon. Tällöin ei tarvita silmukoita ja suoritusaika on aina vakio.
+
+**reallocate(int newSize)**
+Aikakompleksisuus O(n)
+
+Metodi kopioi pinon sisäisen taulukon elementit uuteen suurempaan taulukkoon ja korvaa pinon sisäisen taulukon uudella suuremmalla taulukolla.
+
+Koska taulukon kaikki elementit tulee käydä kopioitaessa läpi, metodin aikakompleksisuus on O(n). Metodin suoritusaika riippuu taulukon elementtien määrästä.
+
+Tämä metodi kutsutaan tarvittaessa push() metodista, joka aiheuttaa sen, että push metodin aikakompleksisuus on huonoimmassa tapauksessa myös O(n).
+
+**toString()**
+Aikakompleksisuus O(n)
+
+toString metodin aikakompleksisuus on O(n), koska metodissa käydään läpi kaikki pinon sisäisen taulukon elementit, jotta niistä voidaan muodostaa merkkijono.
+Suoritusaika määräytyy pinon taulukon elementtien määrästä, joten aikakompleksisuus on O(n).
+
+
 ## 05-TASK
 
 ## 06-TASK
