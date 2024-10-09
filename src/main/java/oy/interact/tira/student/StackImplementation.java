@@ -13,11 +13,22 @@ public class StackImplementation<E> implements StackInterface<E> {
      */
 
     public StackImplementation() {
-        itemArray = new Object[DEFAULT_STACK_SIZE];
-        top = -1;
+        this.itemArray = new Object[DEFAULT_STACK_SIZE];
+        this.top = -1;
     }
 
+    /*
+     * Constructor with parameter
+     * @Parameter size
+     *  The capacity of the inner array.
+     * 
+     * @Throws IllegalArgumentException
+     *  If given capacity is zero or less.
+     */
     public StackImplementation(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Stack size must be greater than 0.");
+        }
         itemArray = new Object[size];
         top = -1;
     }
@@ -35,15 +46,11 @@ public class StackImplementation<E> implements StackInterface<E> {
     @Override
     public void push(E element) throws OutOfMemoryError, NullPointerException{
         if (element == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Push must not be null.");
         }
 
-        if (top == itemArray.length - 1) {
-            try {
-                reallocate(itemArray.length * 2);
-            } catch (OutOfMemoryError e) {
-                throw e;
-            }    
+        if (top == itemArray.length - 1) {  
+            reallocate(itemArray.length * 2);
         }
 
         top += 1;
@@ -54,7 +61,7 @@ public class StackImplementation<E> implements StackInterface<E> {
     @Override
     public E pop() throws IllegalStateException {
         if (top == -1) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Can't pop from an empty stack.");
         }
 
         E popped = (E) itemArray[top];
@@ -68,7 +75,7 @@ public class StackImplementation<E> implements StackInterface<E> {
     @Override
     public E peek() throws IllegalStateException {
         if (top == -1) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Stack is empty.");
         }
 
         return (E) itemArray[top];

@@ -99,7 +99,7 @@ public class Algorithms {
          return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1);
       }
       if (impl == BSearchImplementation.ITERATIVE) {
-         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex-1);
+         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex);
       }
       return -1;
    }
@@ -141,7 +141,7 @@ public class Algorithms {
          }
       }
 
-      if (aValue.equals(fromArray[fromIndex])) {
+      if (fromIndex < fromArray.length && aValue.equals(fromArray[fromIndex])) {
          return fromIndex;
       }
       return -1;
@@ -160,7 +160,7 @@ public class Algorithms {
          return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1, comparator);
       }
       if (impl == BSearchImplementation.ITERATIVE) {
-         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex - 1, comparator);
+         return binarySearchIterative(aValue, fromArray, fromIndex, toIndex, comparator);
       }
       return -1;
    }

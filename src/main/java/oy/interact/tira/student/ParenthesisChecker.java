@@ -36,7 +36,7 @@ public class ParenthesisChecker {
     * @throws ParenthesesException if the parentheses did not match as intended.
     */
    public static int checkParentheses(StackInterface<Character> stack, String fromString) throws ParenthesesException {
-      // TODO (for grade 1, see instructions for higher grades):
+      
       // for each character in the input string
       //   if character is an opening parenthesis -- one of "([{"
       //      push it into the stack (check for failure and throw an exception if so)
@@ -67,7 +67,7 @@ public class ParenthesisChecker {
             try {
                stack.push(c);
                parenthesesCount++;
-            } catch (Exception e) {
+            } catch (NullPointerException | OutOfMemoryError e) {
                throw new ParenthesesException("Push failed", lines, column, -4);
             }
             
