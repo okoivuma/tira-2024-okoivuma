@@ -61,7 +61,7 @@ public class StackImplementation<E> implements StackInterface<E> {
     @Override
     public E pop() throws IllegalStateException {
         if (top == -1) {
-            throw new IllegalStateException("Can't pop from an empty stack.");
+            throw new IllegalStateException("Cannot pop from an empty stack.");
         }
 
         E popped = (E) itemArray[top];
@@ -75,7 +75,7 @@ public class StackImplementation<E> implements StackInterface<E> {
     @Override
     public E peek() throws IllegalStateException {
         if (top == -1) {
-            throw new IllegalStateException("Stack is empty.");
+            throw new IllegalStateException("Cannot peek from an empty stack.");
         }
 
         return (E) itemArray[top];

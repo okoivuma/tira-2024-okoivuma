@@ -176,13 +176,13 @@ Parhaimmillaan metodin aikakompleksisuus on O(1), mutta pahimmassa tapauksessa t
 Aikakompleksisuus O(1)
 
 Metodi poistaa pinosta päälimmäisen elementin, jos pino ei ole tyhjä ja vähentää top-arvoa yhdellä. Jos pino on tyhjä metodi heittää poikkeuksen
-IllegalStateException("Can't pop from an empty stack.")
+IllegalStateException("Cannot pop from an empty stack.")
 Metodissa ei ole vaihtelevaa inputin kokoa eikä silmukoita, joten sen suoritusaika on aina vakio O(1).
 
 **peek()**
 Aikakompleksisuus O(1)
 
-Peek metodi palauttaa pinosta päälimmäisen elementin poistamatta sitä pinosta. Mikäli pino on tyhjä metodi heittää poikkeuksen IllegalStateException("Stack is empty.").
+Peek metodi palauttaa pinosta päälimmäisen elementin poistamatta sitä pinosta. Mikäli pino on tyhjä metodi heittää poikkeuksen IllegalStateException("Cannot peek from an empty stack.").
 Metodin suoritusaika on aina vakio, sillä metodilla ei ole syötettä, josta se olisi riippuvainen, eikä toteutuksessa ole silmukoita.
 
 **size()**
