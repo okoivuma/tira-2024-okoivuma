@@ -115,6 +115,8 @@ Kuvaajassa esitetään käyrät täytölle(fill) ja järjestämiselle(sort) mill
 
 Jos kuvaajan hakuaikoja vertaa edellisen tehtävän vastaavaan kuvaajaan, huomataan, että hakuajat ovat selvästi pienemmät. Hakuajan alussa oleva aikapiikki johtuu ohjelman kääntämisesta, tietokoneen toiminnasta testiä aloittaessa ja testiin valmistautumisesta. 
 
+Edelliseen tehtävään verrattaessa huomataan, että puolitushaun kuvaajassa on lisäksi sort käyrä, jota lineaarisessa haussa ei ole. Tämä johtuu siitä, että puolitushakua käytettäessä on ehdoton vaatimus, että aineisto on lajiteltu. Lineaarinen haku tomii myös lajittelemattoman aineiston kanssa, jolloin lajitteluun ei kulu aikaa.
+
 Puolitushaun käyttöehtona on se, että taulukko on valmiiksi lajiteltu. Tämä johtuu puolitushaun toimintaperiaatteesta, sillä se hyödyntää taulukon järjestystä vertaillessaan, onko haettava arvo suurempi vai pienempi, kuin taulukon keskikohta.
 
 Edellisessä tehtävässä toteutettu lineaarinen haku toimii myös lajittelemattoman aineiston tapauksessa, sillä se käy haettavat arvot läpi yksitellen.
@@ -207,6 +209,8 @@ Metodi ei iteroi taulukon elementtien läpi, vaan se suoraan alustaa taulukon ti
 **reallocate(int newSize)**
 Aikakompleksisuus O(n)
 
+Metodia ei ollut rajapintaluokassa, mutta toteutin sen apumetodiksi push() metodille pitääkseni koodin siistimpänä.
+
 Metodi kopioi pinon sisäisen taulukon elementit uuteen suurempaan taulukkoon ja korvaa pinon sisäisen taulukon uudella suuremmalla taulukolla.
 
 Koska taulukon kaikki elementit tulee käydä kopioitaessa läpi, metodin aikakompleksisuus on O(n). Metodin suoritusaika riippuu taulukon elementtien määrästä.
@@ -221,6 +225,35 @@ Suoritusaika määräytyy pinon taulukon elementtien määrästä, joten aikakom
 
 
 ## 05-TASK
+
+Tehtävässä toteutin jono tietorakenteen käyttämällä sekä taulukkoa, että linkitettyä listaa. Loin toteuttamistani jonoista myös olit factory-luokkiin, jolloin jono toteutus on käytössä Tira Coders sovelluksessa sekä testeissä. Kokeilin sovelluksessa sekä taulukkopohjaista, että linkitetyllä listalla toimivaa jonoa.
+
+Tässä tehtävässä opin ymmärtämään jono tietorakenteen periaatteen, sekä opin hyödyntämään sitä käytännössä. Linkitetty lista oli täysin uutta asiaa ja sen ymmärtäminen vaati paljon työtä sekä aikaa. 
+
+Taulukkototeutuksessa metodit 
+capacity(), dequeue(), element(), size(), isEmpty() sekä clear() toteuttivat vaaditun vakio aikakompleksisuuden O(1). Näiden metodien suoritusaika on vakio, sillä se ei ole riippuvainen syötteen koosta, eivätkä ne sisällä silmukoita.
+
+Metodi enqueue() on parhaassa tapauksessa O(1), mutta mikäli taulukkoa joudutaaan kasvattamaan, kutsutaan reallocate(int) metodia, jonka aikakompleksisuus on O(n). Metodi enqueue() on siis pahimmassa tapauksessa aikakompleksisuudeltaan lineaarinen O(n).
+
+Metodissa toString iteroidaan taulukon elementit läpi, jolloin sen suoritusaika on riippuvainen taulukon koosta, joten sen aikakompleksisuus on O(n). Parhassa tapauksessa, mikäli taulukko on tyhjä, päästään toString metodissa aikakompleksisuuteen O(1).
+
+
+Linkitettyä listaa käytettäessä uudelleenallokointia ei tarvitse tehdä, koska listan muistipaikkoja ei tarvitse varata erikseen, jolloin listalla ei ole ennalta määritettyä kapasiteettiä. Tästä syystä linkitetyn listan toteutuksessa ei tarvita muistin uudelleenallokointia ja kaikki metodit ovat aikakompleksisuudeltaan vakioita O(1), paitsi toString O(n), jossa käydään lista läpi solmu kerrallaan. 
+
+**Linkitetty lista vs taulukko**
+
+**muistitehokkuus**
+Linkitettyä listaa käytettäessä jokaisen alkion yhteyteen täytyy tallentaa viittaus seuraavaan solmuun, jota taulukkopohjaisessa ei tarvitse tehdä. Linkitetty lista vie siis hieman enemmän muistia per alkio verrattuna taulukkoon.
+
+Taulukkopohjaisessa toteutuksessa elementit ovat muistissa peräkkäin ja linkitetyn listan tapauksessa elementit eivät ole muistissa järjestettynä. Tämä voi hidastaa algoritmin toimintaa käytettäessä linkitettyä listaa. Taulukosta voidaan myös palauttaa indeksin avulla haluttu elementti vakioajassa, kun taas linkitetyn listan tapauksessa joudutaan käymään lista läpi solmu kerrallaan mikäli halutaan saada listalta tietty alkio.
+
+**aikatehokkuus**
+Taulukkopohjaisessa toteutuksessa joudutaan lisäämään taulukon kapasiteettiä taulukon tilan loppuessa, jolloin aikakompleksisuus kasvaa lineaariseksi. Linkitetyn listan tapauksessa uudelleenallokointia ei tarvitse tehdä. 
+
+
+Taulukkopohjainen toteutus on parempi tilanteissa, joissa tietorakenne on harvoin muuttuva ja tarvitaan tehokasta muistin käyttöä.
+
+Linkitetty lista on parempi tilanteissa, joissa elementtejä lisätään tai poistetaan usein, eikä etukäteen tiedetä paljonko muistia tulisi varata.
 
 ## 06-TASK
 

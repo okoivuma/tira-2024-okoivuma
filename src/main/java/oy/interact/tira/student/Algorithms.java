@@ -108,7 +108,7 @@ public class Algorithms {
    // Lähde: luentomateriaalin pseudokoodi
    public static <T extends Comparable<T>> int binarySearchRecursive(T aValue, T[] fromArray, int fromIndex, int toIndex) {
      if (fromIndex == toIndex) {
-         if (fromArray[fromIndex].equals(aValue)) {
+         if (fromArray[fromIndex].compareTo(aValue) == 0) { 
             return fromIndex;
          } else {
             return -1;
@@ -141,7 +141,7 @@ public class Algorithms {
          }
       }
 
-      if (fromIndex < fromArray.length && aValue.equals(fromArray[fromIndex])) {
+      if (fromIndex < fromArray.length && aValue.compareTo(fromArray[fromIndex]) == 0) {
          return fromIndex;
       }
       return -1;

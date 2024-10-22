@@ -59,8 +59,8 @@ public class ArrayQueue<E> implements QueueInterface<E> {
         }
 
         array[tail] = element;
-        tail += 1;
-        count += 1;
+        tail ++;
+        count ++;
     }
 
     @SuppressWarnings("unchecked")

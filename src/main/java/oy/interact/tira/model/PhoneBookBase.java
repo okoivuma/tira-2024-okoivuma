@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import oy.interact.tira.NotYetImplementedException;
 import oy.interact.tira.factories.ArrayQueueFactory;
+//import oy.interact.tira.factories.LinkedListQueueFactory;
 import oy.interact.tira.factories.StackFactory;
 import oy.interact.tira.student.graph.Graph;
 import oy.interact.tira.student.ParenthesesException;
@@ -135,6 +136,7 @@ public abstract class PhoneBookBase {
 
 	public QueueInterface<Coder> getCoders(String knowingProgrammingLanguage) throws Exception {
 		QueueInterface<Coder> queue = ArrayQueueFactory.createCoderQueue();
+		//QueueInterface<Coder> queue = LinkedListQueueFactory.createCoderQueue();
 		if (null != queue) {
 			Coder[] array = toArray();
 			if (array.length > 0) {
