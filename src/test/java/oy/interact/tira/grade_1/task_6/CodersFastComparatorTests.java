@@ -20,7 +20,7 @@ import oy.interact.tira.student.Algorithms;
 @DisplayName("Testing fastSort algorithm with Comparators")
 class CodersFastComparatorTests {
 
-	private static final int TEST_COUNT = 6;
+	private static final int TEST_COUNT = 8;
 	private static int currentFileIndex = 0;
 	private Coder[] coderArray;
 

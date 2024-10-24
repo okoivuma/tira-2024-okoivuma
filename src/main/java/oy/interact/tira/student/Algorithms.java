@@ -227,7 +227,7 @@ public class Algorithms {
    public static <E> void fastSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator, FastSortAlgorithm algorithm) {
       switch (algorithm) {
          case QUICKSORT:
-            // TODO: Call your quicksort algorithm here.
+            quickSort(array, fromIndex, toIndex - 1, comparator);
             break;
          case HEAPSORT:
             // TODO: IF implementing heapsort, call your algorithm here.
@@ -240,4 +240,99 @@ public class Algorithms {
       }
    }
 
-} // End of class Algorithms
+   public static <E> void quickSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator) {
+      if (fromIndex < toIndex) {
+         int pIndex = hoarePartition(array, fromIndex, toIndex, comparator);
+         quickSort(array, fromIndex, pIndex, comparator);
+         quickSort(array, pIndex + 1, toIndex, comparator);
+      }
+   }
+   
+
+   public static <E> void mergeSort(E[] array, int fromIndex, int toIndex, Comparator comparator){
+      if (toIndex - fromIndex < 1) {
+         return;
+      }
+      int middle = fromIndex + (toIndex - fromIndex) / 2;
+
+      mergeSort(array, fromIndex, middle, comparator);
+      mergeSort(array, middle + 1, toIndex, comparator);
+
+      merge(array, fromIndex, middle, toIndex, comparator);
+   }
+   
+
+   private static <E> void merge(E[] array, int fromIndex, int middle, int toIndex, Comparator comparator) {
+      int lCapacity = middle - fromIndex + 1;
+      int rCapacity = toIndex - middle + 1;
+
+      Object[] leftArray = new Object[lCapacity];
+      Object[] rightArray = new Object[rCapacity];
+
+      for (int i = 0; i < lCapacity; i++) {
+         leftArray[i] = array[fromIndex + i];
+      }
+
+      for (int j = 0; j < rCapacity; j++) {
+         rightArray[j] = array[middle + 1 + j];
+      }
+
+      //TODO yhistä ja kopioi
+   }
+   /*
+   private static <E> int partition(E[] array, int low, int high, Comparator<E> comparator) {
+      E pivot = array[high];
+      int i = low - 1;
+
+      for (int j = low; j < high; j++){
+         if (comparator.compare(array[j], pivot) < 0) {
+            i++;
+            MyClass.swap(array, i, j);
+         }
+      }
+
+      MyClass.swap(array, i + 1, high);
+      return i + 1;
+   }*/
+
+   private static <E> int hoarePartition(E[] array, int low, int high, Comparator<E> comparator) {
+      
+
+      E pivot = medianOfThree(array, low, high, comparator);
+      int i = low - 1;
+      int j = high + 1;
+      while (true) {
+         do {
+            i++;
+        } while (comparator.compare(array[i], pivot) < 0);
+        
+         do {
+            j--;
+        } while (comparator.compare(array[j], pivot) > 0);
+
+         if (i >= j) {
+            return j;
+         }
+
+         MyClass.swap(array, i, j);
+      }
+   }
+
+   private static <E> E medianOfThree(E[] array, int low, int high, Comparator<E> comparator) {
+      int middle = low + (high - low) / 2;
+   
+      if (comparator.compare(array[low], array[middle]) > 0) {
+         MyClass.swap(array, low, middle);
+      }
+      if (comparator.compare(array[low], array[high]) > 0) {
+         MyClass.swap(array, low, high);
+      }
+      if (comparator.compare(array[middle], array[high]) > 0) {
+         MyClass.swap(array, middle, high);
+      }
+      
+      return array[middle];
+   }
+
+} 
+// End of class Algorithms
