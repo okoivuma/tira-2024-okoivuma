@@ -233,7 +233,7 @@ public class Algorithms {
             // TODO: IF implementing heapsort, call your algorithm here.
             break;
          case MERGESORT:
-            // TODO: IF implementing mergesort, call your algorithm here.
+            mergeSort(array, fromIndex, toIndex - 1, comparator);
             break;
          default:
             break;
@@ -249,7 +249,7 @@ public class Algorithms {
    }
    
 
-   public static <E> void mergeSort(E[] array, int fromIndex, int toIndex, Comparator comparator){
+   public static <E> void mergeSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator){
       if (toIndex - fromIndex < 1) {
          return;
       }
@@ -262,12 +262,13 @@ public class Algorithms {
    }
    
 
-   private static <E> void merge(E[] array, int fromIndex, int middle, int toIndex, Comparator comparator) {
+   @SuppressWarnings("unchecked")
+   private static <E> void merge(E[] array, int fromIndex, int middle, int toIndex, Comparator<E> comparator) {
       int lCapacity = middle - fromIndex + 1;
-      int rCapacity = toIndex - middle + 1;
+      int rCapacity = toIndex - middle;
 
-      Object[] leftArray = new Object[lCapacity];
-      Object[] rightArray = new Object[rCapacity];
+      E[]  leftArray = (E[]) new Object[lCapacity];
+      E[] rightArray = (E[]) new Object[rCapacity];
 
       for (int i = 0; i < lCapacity; i++) {
          leftArray[i] = array[fromIndex + i];
@@ -277,7 +278,39 @@ public class Algorithms {
          rightArray[j] = array[middle + 1 + j];
       }
 
-      //TODO yhistä ja kopioi
+      //Subarray index
+
+      int i = 0;
+      int j  = 0;
+
+      //Index of merged array
+      int k = fromIndex;
+
+      //Copy elements from subarrays to array
+
+      while (i < lCapacity && j < rCapacity) {
+         if (comparator.compare(leftArray[i], rightArray[j]) <= 0) {
+            array[k] = leftArray[i];
+            i++;
+         } else {
+            array[k] = rightArray[j];
+            j++;
+         }
+         k++;
+      }
+
+      while (i < lCapacity) {
+         array[k] = leftArray[i];
+         i++;
+         k++;
+      }
+
+      while (j < rCapacity) {
+         array[k] = rightArray[j];
+         j++;
+         k++;
+      }
+
    }
    /*
    private static <E> int partition(E[] array, int low, int high, Comparator<E> comparator) {
