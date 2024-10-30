@@ -230,7 +230,7 @@ public class Algorithms {
             quickSort(array, fromIndex, toIndex - 1, comparator);
             break;
          case HEAPSORT:
-            // TODO: IF implementing heapsort, call your algorithm here.
+            heapSort(array, fromIndex, toIndex - 1, comparator);
             break;
          case MERGESORT:
             mergeSort(array, fromIndex, toIndex - 1, comparator);
@@ -247,7 +247,52 @@ public class Algorithms {
          quickSort(array, pIndex + 1, toIndex, comparator);
       }
    }
+
+
+   /*
+    * Private partitioning method for quickSort
+    */
+   private static <E> int hoarePartition(E[] array, int low, int high, Comparator<E> comparator) {
+      E pivot = medianOfThree(array, low, high, comparator);
+      int i = low - 1;
+      int j = high + 1;
+      while (true) {
+         do {
+            i++;
+        } while (comparator.compare(array[i], pivot) < 0);
+        
+         do {
+            j--;
+        } while (comparator.compare(array[j], pivot) > 0);
+
+         if (i >= j) {
+            return j;
+         }
+
+         MyClass.swap(array, i, j);
+      }
+   }
+
+   /*
+    * Private method to find pivot value
+    */
+   private static <E> E medianOfThree(E[] array, int low, int high, Comparator<E> comparator) {
+      int middle = low + (high - low) / 2;
    
+      if (comparator.compare(array[low], array[middle]) > 0) {
+         MyClass.swap(array, low, middle);
+      }
+      if (comparator.compare(array[low], array[high]) > 0) {
+         MyClass.swap(array, low, high);
+      }
+      if (comparator.compare(array[middle], array[high]) > 0) {
+         MyClass.swap(array, middle, high);
+      }
+      
+      return array[middle];
+   }
+
+
 
    public static <E> void mergeSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator){
       if (toIndex - fromIndex < 1) {
@@ -312,59 +357,48 @@ public class Algorithms {
       }
 
    }
-   /*
-   private static <E> int partition(E[] array, int low, int high, Comparator<E> comparator) {
-      E pivot = array[high];
-      int i = low - 1;
+   
+   public static <E> void heapSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator) {
+      heapify(array, fromIndex, toIndex, comparator);
 
-      for (int j = low; j < high; j++){
-         if (comparator.compare(array[j], pivot) < 0) {
-            i++;
-            MyClass.swap(array, i, j);
-         }
-      }
-
-      MyClass.swap(array, i + 1, high);
-      return i + 1;
-   }*/
-
-   private static <E> int hoarePartition(E[] array, int low, int high, Comparator<E> comparator) {
-      
-
-      E pivot = medianOfThree(array, low, high, comparator);
-      int i = low - 1;
-      int j = high + 1;
-      while (true) {
-         do {
-            i++;
-        } while (comparator.compare(array[i], pivot) < 0);
-        
-         do {
-            j--;
-        } while (comparator.compare(array[j], pivot) > 0);
-
-         if (i >= j) {
-            return j;
-         }
-
-         MyClass.swap(array, i, j);
+      int end = toIndex;
+      while (end > fromIndex) {
+         MyClass.swap(array, end, fromIndex);
+         end--;
+         siftDown(array, fromIndex, end, comparator);
       }
    }
 
-   private static <E> E medianOfThree(E[] array, int low, int high, Comparator<E> comparator) {
-      int middle = low + (high - low) / 2;
-   
-      if (comparator.compare(array[low], array[middle]) > 0) {
-         MyClass.swap(array, low, middle);
+   private static <E> void heapify(E[] array, int fromIndex, int toIndex, Comparator<E> comparator) {
+      int start = (toIndex - 1) / 2;
+
+      while (start >= fromIndex) {
+         siftDown(array, start, toIndex, comparator);
+         start--;
       }
-      if (comparator.compare(array[low], array[high]) > 0) {
-         MyClass.swap(array, low, high);
-      }
-      if (comparator.compare(array[middle], array[high]) > 0) {
-         MyClass.swap(array, middle, high);
-      }
+   }
+
+   private static <E> void siftDown(E[] array, int start, int end, Comparator<E> comparator) {
+      int root = start;
       
-      return array[middle];
+      while (2 * root + 1 <= end) {
+         int child = 2 * root + 1;
+         int swap = root;
+         if (comparator.compare(array[swap], array[child]) < 0) {
+            swap = child;
+         }
+
+         if (child + 1 <= end && comparator.compare(array[swap], array[child + 1]) < 0) {
+            swap = child + 1;
+         }
+
+         if (swap == root) {
+            return;
+         } else {
+            MyClass.swap(array, root, swap);
+            root = swap;
+         }
+      }
    }
 
 } 

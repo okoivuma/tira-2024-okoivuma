@@ -18,7 +18,7 @@ import oy.interact.tira.student.Algorithms;
 @DisplayName("Testing slow sort algorithm with Comparators")
 class CodersSlowComparatorTests {
 
-	private static final int TEST_COUNT = 5;
+	private static final int TEST_COUNT = 6;
 	private static int currentFileIndex = 0;
 	private static Coder [] coderArray;
 	private static boolean testIsDisabled = false;
