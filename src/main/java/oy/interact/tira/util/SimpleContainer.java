@@ -209,7 +209,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 	public void sort() {
 	 
 		if (array != null && count > 0) {
-			Algorithms.insertionSort(array, 0, count);
+			Algorithms.fastSort(array, 0, count, Comparator.naturalOrder());
 			sorted = true;
 		}
 	}
@@ -218,7 +218,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 	public void sort(Comparator<E> usingComparator) {
 	
 		if (array != null && count > 0) {
-			Algorithms.insertionSort(array, 0, count, usingComparator);
+			Algorithms.fastSort(array, 0, count, usingComparator);
 			sorted = true;
 		}
 	}

@@ -355,7 +355,6 @@ public class Algorithms {
          j++;
          k++;
       }
-
    }
    
    public static <E> void heapSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator) {

@@ -257,6 +257,56 @@ Linkitetty lista on parempi tilanteissa, joissa elementtejä lisätään tai poi
 
 ## 06-TASK
 
+Tässä tehtävässä toteutin kolme nopeaa lajittelualgoritmia quickSort, mergeSort sekä heapSort. Muokkasin myös SimpleContainer luokan sort metodeja, jotta nopeat lajittelualgoritmit toimivat myös Tira Coders sovelluksessa.
+En ollut aiemmin toteuttanut ollenkaan nopeita lajittelualgoritmejä, joten aloitin tehtävän tutustumalla algoritmien toimintaan luentomateriaalien sekä wikipedian avulla. QuickSort sekä mergeSort olivat hyvää harjoitusta rekursiivien algoritmien toteuttamisessa. Rekursiivisuuden ymmärtäminen ja hyödyntäminen on ollut ajoittain vaikeaa, joten harjoitus on hyväksi.
+
+**Quicksort**
+
+Ensimmäisenä toteutin quickSort algoritmin hyödyntäen Hoaren partitiointimenetelmää. Käytin partitioinnissa pivot arvon valintaan toteuttamaani medianOfThree algoritmiä, joka valitsee pivot arvoksi taulukon ensimmäisen, keskimmäisen sekä viimeisen elementin mediaanin. Tämä vähentää todennäköistyyttä sille, että pivot arvoksi valikoituu taulukon pienin tai suurin arvo, jolloin aikakompleksisuus voisi nousta neliölliseksi.
+
+
+QuickSort algoritmin keskimääräinen aikakompleksisuus on O(n log n), sillä quickSort metodi jakaa syötteenä saadun taulukon kahteen osaan rekursion joka vaiheessa, minkä vuoksi algotritmin päämetodin aikakompleksisuudeksi tulee O(log n).
+
+Algoritmin apumetodi hoarePartition on aikakompleksisuudeltaan O(n), sillä se käy taulukon läpi silmukassa elementti kerrallaan. Partitioinnissa käytetty metodi medianOfThree on aikakompleksisuudeltaan vakio O(1), sillä sen suoritusaika ei vaihtele aineiston mukaan eikä siinä ole silmukoita. MedianOfThree ei siis vaikuta algoritmin aikakompleksisuuteen. 
+
+Yhdistämällä nämä apumetodit päämetodiin, tulee quick sort algorimtin keskimääräiseksi aikakompleksisuudeksi O(n log n).
+
+Pahimmassa tapauksessa, jos syötteenä saatu taulukko on lähestulkoon tai kokonaan lajiteltu ja pivot arvoksi on valittu taulukon ensimmäinen tai viimeinen elementti, quicksort algoritmi ei pysty jakamaan taulukkoa tasaisesti kahteen osaan. Tällaisessa tilanteessa algoritmi joutuu käsittelemään jokaisessa tasossa lähes kaikki elementit uudelleen ja aikakompleksisuudeksi nousee O(n^2). 
+
+Käyttämäni partitiointimetodi pyrkii estämään tällaisia tilanteita valitsemalla kolmesta arvosta keskimmäisen.
+
+![kuva](insertionSort-vs-quickSort.png)
+
+Testien aikamittauksien avulla huomataan ero quickSortin O(n log n) ja aiemmin toteuttamani hitaan lajittelualgoritmin insertionSortin O(n^2) suorituskyvyssä. Kuvan sininen käyrä edustaa tässä tehtävässä toteuttamaani pikalajittelua, joka on selkeästi nopeampi varsinkin suurilla aineistoilla. 
+
+Erot suorituskyvyssä kävi myös ilmi Tira Coders sovelluksessa, sillä muistiin lataaminen ja lajittelu 50000 koodarin aineistolla vaati hidasta lajittelua käyttämällä 2 min 32sek. Quicksorttia käyttämällä vastaava operaatio samalla aineistolla kesti vain 34 sekuntia. Operaatio on edelleen hidas, sillä puolen minuutin odottelu tuntuu käyttäjän näkökulmasta pitkältä ajalta, mutta selvästi nopeampi kuin hidasta lisäyslajittelua käyttämällä. 
+
+Operaation hitaus johtuu SimpleContainerin add() metodista, sillä se käy lisättävät elementit yksitellen läpi.
+
+
+**Mergesort**
+
+Toinen toteuttamani nopea lajittelualgoritmi mergesort perustuu myös rekursiiviseen hajota ja hallitse periaatteeseen.
+
+Mergesortin toiminta perustuu siihen, että se jakaa taulukon keskeltä kahtia joka rekursion vaiheessa kutsumalla rekursiivisesti mergesort algoritmiä, kunnes taulukon osa sisältää vain yhden elementin. Taulukon jakaminen kahteen osaan joka rekursion vaiheessa tekee mergesort metodin aikakompleksisuudesta O(log n), sillä jakamisvaiheiden määrä on verrannollinen syötteen kokoon logaritmisesti.
+
+Tämän jälkeen taulukon osat yhdistetään merge() metodilla siten, että ne ovat kokonaisessa taulukossa järjestyksessä.
+
+Toisin kuten quickSort algoritmissä, merge metodi luo kaksi aputaulukkoa, jotka täytetään alkuperäisen taulukon arvoilla. Nämä taulukot sisältävät alkuperäisen taulukon puolikkaat. Merge metodi vertailee aputaulukoiden arvoja yksi kerrallaan toisiinsa ja sijoittaa pienemmän arvon alkuperäiseen taulukkoon. Mikäli toinen taulukko loppuu aiemmin, merge metodi täyttää loput lajitellusta taulukosta jäljellä olevista aputaulukon arvoista. Tämä toimenpide varmistaa sen, että jokainen elementti tulee lajitelluksi.
+
+Merge metodin aikakompleksisuus on O(n), sillä taulukoiden elementit käydään yksitellen läpi. Yhdistämällä nämä kaksi metodia tulee algoritmin aikakompleksisuudeksi O(n log n).
+
+Aputaulukoiden käyttö tekee algoritmistä muistitehokkuudeltaan raskaamman, kuin "in place" periaatteella toimivan quicksortin. Tämä voi olla ongelma järjestelmissä, joissa vaaditaan tehokasta muistin käyttöä. Kuitenkin mergesort on aikakompleksisuudeltaan aina O(n log n), toisin kuin quicksort, jonka aikakompleksisuus voi pahimmassa tapauksessa nousta neliölliseksi. 
+
+
+**Heapsort**
+
+Viimeinen tehtävässä toteuttamani algoritmi heapSort eli kekolajittelu eroaa muista tehtävän nopeista lajittelualgoritmeistä siten, että se ei ole rekursiivinen algoritmi.
+
+Heapsort perustuu siihen, että lajiteltavasta taulukosta muodostetaan puumainen kekorakenne, joka järjestellään maksimikeoksi. Tämä tarkoittaa sitä, että ylemmän solmun arvo on aina suurempi tai yhtä suuri, kuin sen lapsisolmun arvo. Kun on saatu aikaan maksimikeko, asetetaan siitä suurin elementti taulukon loppuun ja muodostetaan uudelleen maksimikeko. Uudesta maksimikeosta lisätään taulukkoon alkuun suurin elementti, ottamatta huomioon jo lisättyjä elementtejä. Tällöin taulukkoon lisätyt arvot ovat järjestyksessä, kun kaikki elementit on siirretty puusta taulukkoon.
+
+Algoritmin ensimmäisessä vaiheessa kutsutaan heapify metodia, joka muodostaa taulukosta maksimikeon siftDown metodin avulla.
+
 ## 07-TASK
 
 ## 08-TASK
