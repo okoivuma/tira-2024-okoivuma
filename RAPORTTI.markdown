@@ -262,10 +262,14 @@ En ollut aiemmin toteuttanut ollenkaan nopeita lajittelualgoritmejä, joten aloi
 
 **Quicksort**
 
+Aikakompleksisuus: keskimääräinen O(n log n)
+Huonoin tapaus: O(n^2)
+Muistikompleksisuus O(log n)
+
 Ensimmäisenä toteutin quickSort algoritmin hyödyntäen Hoaren partitiointimenetelmää. Käytin partitioinnissa pivot arvon valintaan toteuttamaani medianOfThree algoritmiä, joka valitsee pivot arvoksi taulukon ensimmäisen, keskimmäisen sekä viimeisen elementin mediaanin. Tämä vähentää todennäköistyyttä sille, että pivot arvoksi valikoituu taulukon pienin tai suurin arvo, jolloin aikakompleksisuus voisi nousta neliölliseksi.
 
 
-QuickSort algoritmin keskimääräinen aikakompleksisuus on O(n log n), sillä quickSort metodi jakaa syötteenä saadun taulukon kahteen osaan rekursion joka vaiheessa, minkä vuoksi algotritmin päämetodin aikakompleksisuudeksi tulee O(log n).
+QuickSort algoritmin keskimääräinen aikakompleksisuus on O(n log n), sillä quickSort metodi jakaa syötteenä saadun taulukon kahteen osaan rekursion joka vaiheessa, minkä vuoksi algoritmin päämetodin aikakompleksisuudeksi tulee O(log n).
 
 Algoritmin apumetodi hoarePartition on aikakompleksisuudeltaan O(n), sillä se käy taulukon läpi silmukassa elementti kerrallaan. Partitioinnissa käytetty metodi medianOfThree on aikakompleksisuudeltaan vakio O(1), sillä sen suoritusaika ei vaihtele aineiston mukaan eikä siinä ole silmukoita. MedianOfThree ei siis vaikuta algoritmin aikakompleksisuuteen. 
 
@@ -286,6 +290,9 @@ Operaation hitaus johtuu SimpleContainerin add() metodista, sillä se käy lisä
 
 **Mergesort**
 
+Aikakompleksisuus O(n log n)
+Muistikompleksisuus O(n)
+
 Toinen toteuttamani nopea lajittelualgoritmi mergesort perustuu myös rekursiiviseen hajota ja hallitse periaatteeseen.
 
 Mergesortin toiminta perustuu siihen, että se jakaa taulukon keskeltä kahtia joka rekursion vaiheessa kutsumalla rekursiivisesti mergesort algoritmiä, kunnes taulukon osa sisältää vain yhden elementin. Taulukon jakaminen kahteen osaan joka rekursion vaiheessa tekee mergesort metodin aikakompleksisuudesta O(log n), sillä jakamisvaiheiden määrä on verrannollinen syötteen kokoon logaritmisesti.
@@ -301,11 +308,35 @@ Aputaulukoiden käyttö tekee algoritmistä muistitehokkuudeltaan raskaamman, ku
 
 **Heapsort**
 
+Aikakompleksisuus O(n log n)
+Muistikompleksisuus O(1)
+
 Viimeinen tehtävässä toteuttamani algoritmi heapSort eli kekolajittelu eroaa muista tehtävän nopeista lajittelualgoritmeistä siten, että se ei ole rekursiivinen algoritmi.
 
-Heapsort perustuu siihen, että lajiteltavasta taulukosta muodostetaan puumainen kekorakenne, joka järjestellään maksimikeoksi. Tämä tarkoittaa sitä, että ylemmän solmun arvo on aina suurempi tai yhtä suuri, kuin sen lapsisolmun arvo. Kun on saatu aikaan maksimikeko, asetetaan siitä suurin elementti taulukon loppuun ja muodostetaan uudelleen maksimikeko. Uudesta maksimikeosta lisätään taulukkoon alkuun suurin elementti, ottamatta huomioon jo lisättyjä elementtejä. Tällöin taulukkoon lisätyt arvot ovat järjestyksessä, kun kaikki elementit on siirretty puusta taulukkoon.
+Heapsort perustuu siihen, että lajiteltavasta taulukosta muodostetaan puumainen kekorakenne, joka järjestellään maksimikeoksi. Tämä tarkoittaa sitä, että ylemmän solmun arvo on aina suurempi tai yhtä suuri, kuin sen lapsisolmun arvo. Kun on saatu aikaan maksimikeko, asetetaan suurin elementti taulukon loppuun ja muodostetaan uudelleen maksimikeko. Uudesta maksimikeosta lisätään taulukkoon alkuun suurin elementti, ottamatta huomioon jo lisättyjä elementtejä. Tällöin taulukkoon lisätyt arvot ovat järjestyksessä, kun kaikki elementit on siirretty puusta taulukkoon.
 
-Algoritmin ensimmäisessä vaiheessa kutsutaan heapify metodia, joka muodostaa taulukosta maksimikeon siftDown metodin avulla.
+Algoritmin ensimmäisessä vaiheessa kutsutaan heapify metodia, joka muodostaa taulukosta maksimikeon siftDown metodin avulla. Siftdown metodin aikakompleksisuus on O(log n) sillä sen suoritusaika on riippuvainen puun korkeudesta. Heapify algoritmin aikakompleksisuus on O(n), sillä siinä käydään läpi vain isäntäsolmut, eli ne solmut joilla on lapsisolmuja.
+
+Kun maksimikeko on saatu rakennettua, siirretään suurin arvo taulukon alusta taulukon loppuun ja vähennetään heapsort algoritmin end-muuttujan arvoa. Kun end-arvoa vähennetään, ei suurin arvo enää ole mukana lajittelussa. Lopuksi kutsutaan siftDown metodia palauttamaan kekorakenteen oikeellisuus. 
+Tätä prosessia suoritetaan iteratiivisesti, kunnes kaikki arvot ovat lajiteltu.
+
+Algoritmin aikakompleksisuus on O(n log n), sillä heapify metodin aikakompleksisuus on O(n) ja siftDown metodin aikakompleksisuus on O(log n). Heapsort metodin suoritusaika on suoraan riippuvainen taulukon koosta, sillä jokainen elementti lajitellaan ja jokaisessa vaiheessa kutsutaan siftDown, joten kokonaisaikakompleksisuus on O(n log n).
+
+
+**Nopeiden algoritmien vertailu**
+![kuva](fastSorts-kuvaaja.png)
+
+Suoritin aikamittaukset jokaisella nopealla lajittelualgoritmillä, jotta niitä voidaan vertailla keskenään.
+
+Tehtävässä jokainen toteuttamani lajittelualgoritmi on aikakompleksisuudeltaan O(n log n). Poikkeuksena quickSortin huonoin tapaus, jossa sen aikakompleksisuus voi nousta O(n^2).
+
+Kuvaajasta käy ilmi, että pienillä aineistoilla suoritusajat ovat hyvin lähellä toisiaan, mutta aineistojen kasvaessa eroja syntyy jonkin verran.
+Aikamittausten perusteella testeissä parhaiten suoriutui oranssilla kuvattu mergeSort. Hitain suoritus oli heapSort algoritmillä, joka oli kahta muuta selkeästi hitaampi. 
+
+Mergesortin nopeus voidaan selittää sillä, että käytetyssä testikoneessa on paljon muistia käytössä, jolloin algoritmin ylimääräinen muistinkäyttö ei rajoita suorituskykyä. Mergesort luo aputaulukoita ja taulukoissa elementit ovat peräkkäisissä muistipaikoissa, jolloin tiedon käsittely on nopeampaa. Tällöin sovellus hyödyntää tehokkaasti tietokoneen välimuistia ja suorituskyky parantuu eteenkin suurilla aineistoilla. Ylimääräinen muistinkäyttö voi kuitenkin haitata suorituskykyä, mikäli käytettävissä ei olisi tarpeeksi välimuistia tai muisti on hidasta.
+
+Heapsortin hitaus johtuu todennäköisesti sen ylläpitämästä kekorakenteesta, jossa elementit eivät ole muistissa peräkkäin. Tämä voi hidastaa algoritmin suorituskykyä eteenkin suurilla aineistoilla, kun kekoa päivitetään usein (esimerkkinä siftDown metodi).
+
 
 ## 07-TASK
 
