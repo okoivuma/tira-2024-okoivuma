@@ -263,7 +263,9 @@ En ollut aiemmin toteuttanut ollenkaan nopeita lajittelualgoritmejä, joten aloi
 **Quicksort**
 
 Aikakompleksisuus: keskimääräinen O(n log n)
+
 Huonoin tapaus: O(n^2)
+
 Muistikompleksisuus O(log n)
 
 Ensimmäisenä toteutin quickSort algoritmin hyödyntäen Hoaren partitiointimenetelmää. Käytin partitioinnissa pivot arvon valintaan toteuttamaani medianOfThree algoritmiä, joka valitsee pivot arvoksi taulukon ensimmäisen, keskimmäisen sekä viimeisen elementin mediaanin. Tämä vähentää todennäköistyyttä sille, että pivot arvoksi valikoituu taulukon pienin tai suurin arvo, jolloin aikakompleksisuus voisi nousta neliölliseksi.
@@ -291,6 +293,7 @@ Operaation hitaus johtuu SimpleContainerin add() metodista, sillä se käy lisä
 **Mergesort**
 
 Aikakompleksisuus O(n log n)
+
 Muistikompleksisuus O(n)
 
 Toinen toteuttamani nopea lajittelualgoritmi mergesort perustuu myös rekursiiviseen hajota ja hallitse periaatteeseen.
@@ -309,6 +312,7 @@ Aputaulukoiden käyttö tekee algoritmistä muistitehokkuudeltaan raskaamman, ku
 **Heapsort**
 
 Aikakompleksisuus O(n log n)
+
 Muistikompleksisuus O(1)
 
 Viimeinen tehtävässä toteuttamani algoritmi heapSort eli kekolajittelu eroaa muista tehtävän nopeista lajittelualgoritmeistä siten, että se ei ole rekursiivinen algoritmi.
@@ -324,6 +328,7 @@ Algoritmin aikakompleksisuus on O(n log n), sillä heapify metodin aikakompleksi
 
 
 **Nopeiden algoritmien vertailu**
+
 ![kuva](fastSorts-kuvaaja.png)
 
 Suoritin aikamittaukset jokaisella nopealla lajittelualgoritmillä, jotta niitä voidaan vertailla keskenään.

@@ -19,6 +19,10 @@ public class Pair<K,V> {
 		return value;
 	}
 
+	public void setValue(V value) {
+		this.value = value;
+	}
+
 	public boolean isRemoved() {
 		return removed;
 	}
