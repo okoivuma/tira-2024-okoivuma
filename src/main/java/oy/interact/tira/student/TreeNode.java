@@ -1,5 +1,7 @@
 package oy.interact.tira.student;
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import oy.interact.tira.util.Pair;
 
 public class TreeNode<K,V> {
@@ -35,12 +37,12 @@ public class TreeNode<K,V> {
 
     public boolean insert(K key, V value, Comparator<K> comparator) {
        boolean result = false;
-        if (value.equals(keyValue.getValue())) {
+        if (value.equals(getValue())) {
             this.keyValue.setValue(value);
             result = false;
         }
 
-        if (comparator.compare(key, keyValue.getKey()) <= 0) {
+        if (comparator.compare(key, getKey()) <= 0) {
             if (leftChild == null) {
                 leftChild = new TreeNode<K,V>(key, value);
                 leftChild.parent = this;
@@ -60,4 +62,32 @@ public class TreeNode<K,V> {
         return result;
     }
 
+    public V getValue(K key, Comparator<K> comparator) {
+
+        if (comparator.compare(key, getKey()) == 0) {
+            return getValue();
+        } else {
+            if (comparator.compare(key, getKey()) < 0) {
+                if (leftChild != null) {
+                    return leftChild.getValue(key, comparator);
+                }
+            } else {
+                if (rightChild != null) {
+                    return rightChild.getValue(key, comparator);
+                }
+            }
+        }
+        return null;
+    }
+
+    public void toArray(Pair<K,V>[] array, AtomicInteger arrayIndex){
+        if (leftChild != null) {
+            leftChild.toArray(array, arrayIndex);
+        }
+        array[arrayIndex.incrementAndGet()] = new Pair<K,V>(this.getKey(), this.getValue());
+        
+        if (rightChild != null) {
+            rightChild.toArray(array, arrayIndex);
+        }
+    }
 }

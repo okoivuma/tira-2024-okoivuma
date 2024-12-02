@@ -1,6 +1,7 @@
 package oy.interact.tira.student;
 
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import oy.interact.tira.util.Pair;
 import oy.interact.tira.util.TIRAKeyedOrderedContainer;
@@ -21,7 +22,7 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
     @Override
     public void add(K key, V value) throws OutOfMemoryError, IllegalArgumentException {
         if (key == null || value == null) {
-            throw new IllegalArgumentException("Cannot add null values to BST or values to null key.");
+            throw new IllegalArgumentException("Cannot add null key or values to BST.");
         }       
 
         if (root == null) {
@@ -36,8 +37,15 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
 
     @Override
     public V get(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        if (key == null) {
+            throw new IllegalArgumentException("Cannot get value from null key.");
+        }
+
+        if (root == null) {
+            return null;
+        }
+        
+        return root.getValue(key, comparator);
     }
 
     @Override
@@ -72,10 +80,18 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
         count = 0;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Pair<K, V>[] toArray() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArray'");
+        if (root == null) {
+            return (Pair<K, V>[]) new Pair[0];
+        }
+
+        Pair<K,V>[] array = (Pair<K, V>[]) new Pair[count];
+        AtomicInteger arrayIndex = new AtomicInteger(-1);
+        root.toArray(array, arrayIndex);
+        
+        return array;
     }
 
     @Override
