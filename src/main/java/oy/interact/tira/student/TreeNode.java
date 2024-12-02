@@ -1,6 +1,7 @@
 package oy.interact.tira.student;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 import oy.interact.tira.util.Pair;
 
@@ -35,11 +36,15 @@ public class TreeNode<K,V> {
         return rightChild;
     }
 
+    public Pair<K,V> getKeyValue() {
+        return keyValue;
+    }
+
     public boolean insert(K key, V value, Comparator<K> comparator) {
        boolean result = false;
         if (value.equals(getValue())) {
             this.keyValue.setValue(value);
-            result = false;
+            return result;
         }
 
         if (comparator.compare(key, getKey()) <= 0) {
@@ -89,5 +94,25 @@ public class TreeNode<K,V> {
         if (rightChild != null) {
             rightChild.toArray(array, arrayIndex);
         }
+    }
+
+    public V find(Predicate<V> searcher) {
+        
+        if (leftChild != null) {
+            V leftResult = leftChild.find(searcher);
+            if (leftResult != null) {
+                return leftResult;
+            }
+        }
+
+        if (searcher.test(getValue())) {
+            return getValue();
+        }
+
+        if (rightChild != null) {
+            return rightChild.find(searcher);
+        }
+
+        return null;
     }
 }
