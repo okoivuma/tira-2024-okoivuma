@@ -133,17 +133,13 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
 
         int currentIndex = 0;
         TreeNode<K,V> current = root;
-        //TreeNode<K,V> parent = null;
         StackImplementation<TreeNode<K,V>> nodeStack = new StackImplementation<>();
 
         while (!nodeStack.isEmpty() || current != null) {
             if (current != null) {
                 nodeStack.push(current);
-                //parent = current;
                 current = current.getLeftChild();
             } else {
-                //parent = nodeStack.pop();
-                //current = parent.getRightChild();
                 current = nodeStack.pop();
 
                 if (currentIndex == index) {
