@@ -225,7 +225,25 @@ public class Coder implements Comparable<Coder> {
 	 */
 	@Override
 	public int hashCode() {
-		return 0;
+		return hash();
 	}
 
+	//based on lecture material pseudocode
+	private int hash() {
+		int hash = 31;
+		for (int i = 0; i < id.length(); i++) {
+			hash = (hash * 31 + id.charAt(i));	
+		}
+		return hash;
+	}
+
+	//Hash function from live lecture 2024-11-13
+	private int hashFromLive() {
+		int hash = 31;
+		for (int i = 0; i < id.length(); i++) {
+			int current = id.charAt(i);
+			hash += current;
+		}
+		return hash;
+	}
 }
