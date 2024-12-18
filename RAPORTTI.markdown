@@ -347,4 +347,23 @@ Heapsortin hitaus johtuu todennäköisesti sen ylläpitämästä kekorakenteesta
 
 ## 08-TASK
 
+Aloitin tehtävän tekemisen toteuttamalla hajautusfunktion. Aloitin toteuttamisen seuraamalla liveluennolla, sekä UUIDHashTestApp lähdekoodissa esiteltyä hajautusfunktiota. Tämä algoritmi perustuu siihen, että avaimen joka kirjaimen ascii-arvot lisätään yhteen.Kuitenkin testit ajaessa totesin, että tämän hajautusfunktion toimintakyky ei ole lähellekkään riittävän hyvä. Esimerkiksi testin suurimmalla 2000000 koodarin aineistolla duplikaatteja arvoja tuli yhteensä 1998951 kappaletta.
+
+Muokkasin tätä hajautusfunktiota enemmän luentomateriaalin pseudokoodissa esitellyn hajautusfunktion kaltaiseksi, ja suorituskyky parani heti heittämällä. Tässä versiossa valitaan hash-arvoksi alkuluku 31 ja käydään id merkkijono läpi kirjain kerrallaan. Jokaisen kirjaimen kohdalla kerrotaan edellinen hash arvo 31:llä ja lisätään siihen nykyisen merkin ascii arvo.
+
+Uudella hajautusfunktiolla ensimmäiset duplikaatit arvot syntyivät vasta 7. testissä, ja suurimmankin aineiston testissä duplikaatteja oli vain 496 kpl, eli selkeästi vähemmän verrattuna ensimmäiseen toteutukseen.
+
+Vertasin hajautusfunktioita myös UUIDHashTestApp työkalulla:
+
+Versio 1 Coder.hashFromLive()
+![kuva](badHash.png)
+
+
+Versio 2 Coder.hash()
+![kuva](betterHash.png)
+
+Kuten kuvista näkee, versio 2 on selvästi nopeampi ja törmäyksiä tulee kokonaisuudessaan vajaa 42 000, kun taas version 1 kohdalla törmäyksiä on n. 1,2 miljardia.
+
+Kummankin algoritmin aikakompleksisuus on O(n), jossa n on hajautettavan merkkijonon pituus (tässä tapauksessa id). Tämä johtuu siitä, että algoritmissä iteroidaan merkkijonon läpi kirjain kerrallaan.
+
 ## 09-TASK
