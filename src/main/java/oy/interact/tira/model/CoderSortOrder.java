@@ -54,7 +54,7 @@ public enum CoderSortOrder {
 		};
 	}
 
-	// TODO: Students: Implement Comparators for comparing Coder full names
+	// Students: Implement Comparators for comparing Coder full names
 	// and coder names as required. Then depending on the enum value, return
 	// a correct comparator object. Use switch (this) to check what is the
 	// current value of the enum. Use Comparator.reversed() to get a comparator

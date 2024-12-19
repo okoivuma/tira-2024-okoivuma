@@ -49,7 +49,7 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
 
     @Override
     public V remove(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
+        //  Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
 
@@ -183,7 +183,7 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
 
     @Override
     public void accept(Visitor<K, V> visitor) throws Exception {
-        // TODO Auto-generated method stub
+        // optional
         throw new UnsupportedOperationException("Unimplemented method 'accept'");
     }
     

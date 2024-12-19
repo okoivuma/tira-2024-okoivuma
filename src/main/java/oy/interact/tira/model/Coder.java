@@ -177,7 +177,6 @@ public class Coder implements Comparable<Coder> {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////
-	// TODO: Students: implement the two methods below following the instructions
 	//////////////////////////////////////////////////////////////////////////////////////////// _carefully_!
 	// Expecially see the note in the class comment above, and the comments below.
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,6 +237,7 @@ public class Coder implements Comparable<Coder> {
 	}
 
 	//Hash function from live lecture 2024-11-13
+	@SuppressWarnings("unused")
 	private int hashFromLive() {
 		int hash = 31;
 		for (int i = 0; i < id.length(); i++) {
