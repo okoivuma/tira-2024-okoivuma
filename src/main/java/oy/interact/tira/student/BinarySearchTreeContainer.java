@@ -12,10 +12,13 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
     private int count;
     private TreeNode<K,V> root;
     private Comparator<K> comparator;
+    private int maxDepth;
 
 
     public BinarySearchTreeContainer(Comparator<K> comparator) {
         this.comparator = comparator;
+        count = 0;
+        maxDepth = 0;
     }
      
 
@@ -28,9 +31,14 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
         if (root == null) {
             root = new TreeNode<K,V>(key, value);
             count++;
+            maxDepth = 0;
         } else {
+            TreeNode.resetCurrentInsertDepth();
             if (root.insert(key, value, comparator)) {
                 count++;
+                if (TreeNode.getCurrentInsertDepth() > maxDepth) {
+                    maxDepth = TreeNode.getCurrentInsertDepth();
+                }
             }            
         }
     }
@@ -185,6 +193,5 @@ public class BinarySearchTreeContainer<K, V> implements TIRAKeyedOrderedContaine
     public void accept(Visitor<K, V> visitor) throws Exception {
         // optional
         throw new UnsupportedOperationException("Unimplemented method 'accept'");
-    }
-    
+    } 
 }

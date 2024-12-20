@@ -11,6 +11,7 @@ public class TreeNode<K,V> {
     private TreeNode<K,V> leftChild;
     private TreeNode<K,V> rightChild;
     private TreeNode<K,V> parent;
+    private static int currentInsertDepth;
 
     public TreeNode(K key,V value) {
         this.keyValue = new Pair<K,V>(key, value);
@@ -40,6 +41,10 @@ public class TreeNode<K,V> {
         return keyValue;
     }
 
+    public static int getCurrentInsertDepth() {
+        return currentInsertDepth;
+    }
+
     public boolean insert(K key, V value, Comparator<K> comparator) {
        boolean result = false;
         if (value.equals(getValue())) {
@@ -55,6 +60,7 @@ public class TreeNode<K,V> {
             } else {
                 result = leftChild.insert(key, value, comparator);
             }
+            currentInsertDepth++;
         } else {
             if (rightChild == null) {
                 rightChild = new TreeNode<K,V>(key, value);
@@ -63,6 +69,7 @@ public class TreeNode<K,V> {
             } else {
                 result = rightChild.insert(key, value, comparator);
             }
+            currentInsertDepth++;
         }
         return result;
     }
@@ -114,5 +121,9 @@ public class TreeNode<K,V> {
         }
 
         return null;
+    }
+
+    public static void resetCurrentInsertDepth() {
+        currentInsertDepth = 0;
     }
 }
