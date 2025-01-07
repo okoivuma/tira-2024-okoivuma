@@ -594,4 +594,30 @@ Tässä metodissa suoritetaan vain indeksin laskenta ja se on vakioaikainen O(1)
 Tämä apualgoritmi luo uuden taulukon, jonka kapasiteetti on annettu newCapacity. Uuteen taulukkoon lisätään arvot vanhasta taulukosta käyttämällä add(K key) algoritmiä, jotta ne sijoittuvat taulukossa oikeisiin indekseihin.
 
 Tässä käydään läpi kaikki vanhan taulun elementit, joten aikakompleksisuus on lineaarinen O(n), missä n on vanhan taulukon koko.
+
+
+**hashTable vs BST**
+
+Teoriassa hashtablen pitäisi olla binääristä hakupuuta nopeampi, sillä hajautustaulussa algoritmien keskimääräinen aikakompleksisuus on O(1), kun binäärisessä hakupuussa O(log n)
+
+![kuva](BSTvsHashGet1.png)
+![kuva](BSTvsHashAdd1.png)
+
+Kuvaajista huomataan, että hajautustauluhan näyttäisi olevan nopeampi, kuin BST get ja add operaatioissa. Add operaatiossa tapahtuu hieman vaihteluja, jolloin puolestaan BST on selvästi nopeampi. Tämä voi selittyä epätasaiseksi muodostuneella taulukolla, jolloin lineaarista luotaamista on jouduttu tekemään paljon.
+
+
+
+
+![kuva](BST-toArray.png)
+![kuva](HT-toArray.png)
+
+Tietojen saaminen järjestettyyn taulukkoon onkin BST:ssä reilusti nopeampaa. Tämä selittyy sillä, että BST:n toArray lisää elementit taulukkoon valmiiksi järjestyksessä O(n) operaatiolla, jossa n on elementtien määrä. Hajautustaulun tapauksessa ensin lisätään elementit uuteen taulukkoon O(n) operaatiolla, jossa n on taulukon kapasiteetti, eli joudutaan iteroimaan paljon tyhjiä paikkoja. Tämän jälkeen uusi taulukko on täytetty, mutta ei järjestyksessä, joten kutsutaan QuickSortia, jonka aikakompleksisuus on O(n log n).
+
+**milloin hajautustaulu vai BST**
+
+Hajautustaulu eroittuu edukseen erityisesti suurilla aineistoilla lisättäessä tai haettaessa elementtejä. Nämä operaatiot ovat nopeampia, kuin BST:ssä vastaavilla aineistoilla.
+
+Kuitenkin mikäli halutaan järjesteltyä tietoa, kannattaa valita BST, sillä puu varastoi tiedot järjestyksessä, kun taas hajautustaulussa tiedot ovat missä sattuu ja taulukossa on paljon tyhjiä paikkoja. Tietojen saaminen järjestettyyn taulukkoon onkin BST tietorakenteessa todella paljon nopeampaa, kuten kuvaajasta nähdään.
+
+
 ## 09-TASK

@@ -145,8 +145,8 @@ public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedC
                 newIndex++;
             }
         }
-        System.out.println("with " + size + " elements, longest collision chain is " + collisionChain);
-        System.out.println("Collisions occured on adding elements with " + firstIndexCollison + " keys");
+        //System.out.println("with " + size + " elements, longest collision chain is " + collisionChain);
+        //System.out.println("Collisions occured on adding elements with " + firstIndexCollison + " keys");
         
         return toArray;
     }
