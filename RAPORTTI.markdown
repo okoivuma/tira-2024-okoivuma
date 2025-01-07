@@ -345,7 +345,159 @@ Heapsortin hitaus johtuu todennäköisesti sen ylläpitämästä kekorakenteesta
 
 ## 07-TASK
 
+Tämä tehtävä oli ensikosketukeni binäärisiin hakupuihin, joten tehtävän tekeminen alkoikin syvällisellä tiedonhaulla. Luentojen lisäksi perehdyin puutietorakenteisiin Geeks for geeks nettisivun sekä wikipedian avulla. Puutietorakenteen toimintaperiaate oli aluksi hieman vaikea ymmärtää, sillä sekoitin sen aiemmin käytetyn heapin eli keon kanssa. Kuitenkin pian hoksasin binäärisen hakupuun perusperiaatteen ja pääsin tehtävän koodaamisessa alkuun liveluentojen demojen avulla. Tein harjoituksen vuoksi eri metodeissa puun läpikäyntiä rekursiivisesti sekä iteratiivisesti. Tässä tehtävässä helpommin ymmärrettävä tapa puun läpikäynnissä oli mielestäni rekursiivinen läpikäynti. Ennen kurssin alkua rekursiivisuus tuntui jokseenkin abstraktilta ja vaikeasti hahmoteltavana asiana, mutta kurssin aikana olen oppinut ymmärtämään ja hyödyntämään rekursiivisia algoritmejä.
+
+Avain-arvo parien konsepti oli mielestäni helppo ymmärtää, vaikka ennen tätä tehtävää niitä ei olla liiemmin käsitelty. Tällainen avain arvo parien käyttäminen on mielestäni todella kätevä tapa käsitellä arvoja, jotka tunnistetaan tietyn avainarvon perusteella. Kuitenkin pieniä haasteita avain-arvo parien käyttämisessä oli. Haasteina koin tällaisen avain-arvo pari taulukon luomisen, eteenkin taulukon saaminen oikean tyyppiseksi oli epäintuitiivista. En saanutkaan alustettua Pair<K,V> taulukoita ilman, että editori liputtaisi tällaisen tyyppimuunnoksen. Mielestäni taulukon tietotyypit ovat oikeat ja tyyppimuunnokset turvallisia sekä odotettuja, joten käytin taulukoiden luomiseen suppress warning toimintoa.
+
+**Algoritmien oikeellisuus ja aikakompleksisuus**
+
+Tehtävässä aikakompleksisuuksien sekä oikeellisuuden arviointi oli haasteellisempaa, kuin aiemmin sillä tehtävässä ei annettu erikseen algoritmeille aikakompleksisuusvaatimuksia, vaan ne piti päätellä itse teorian sekä testien pohjalta.
+
+Kerron alla kustakin algoritmistä toimintaperiaatteen, aikakompleksisuuden ja osasta algoritmeistä vertailua taulukkopohjaiseen simpleContaineriin nähden.
+
+**add(K key,V value)**
+
+Add metodissa parametrinä tuleva avain arvo pari lisätään puuhun, mikäli kumpikaan arvoista ei ole Null. Algoritmi tarkistaa ensin puun juurisolmun, ja mikäli se on tyhjä asetetaan annettu pari suoraan juurisolmuun puun ensimmäiseksi elementiksi. Mikäli puussa on jo elementtejä, kutsutaan rekursiivista TreeNode luokan insert() metodia.
+
+Insert algoritmi rekursiivisesti asettaa uuden avaimen puuhun vasemmalle alipuuhun, mikäli avain on pienempi tai yhtä suuri kuin nykyinen avain.
+Mikäli avain on suurempi, kuin nykyinen avain, se lisätään oikeaan alipuuhun. Algoritmi käy puuta läpi näillä ehdoilla ja lisää parametrinä tulleen avain-arvo parin oikeelliseen kohtaan alimpaan solmuun.
+
+Insert metodi huolehtii myös puun maksimisyvyyden laskemisesta. Mikäli arvoja lisätessä maksimisyvyys ylittää BSTContainer luokassa olevan maxDepth arvon, päivitetään nykyinen puun syvyys maksimisyvyydeksi.
+
+
+Add algoritmin aikakompleksisuus parhaassa tapauksessa on O(log n), sillä insert metodi kulkee puun läpi askel kerrallaan, eli suoritusnopeus on riippuvainen puun syvyydestä. Tämä paras tapaus saavutetaan, mikäli puu on täysin tasapainossa, eli vasen ja oikea alipuu ovat yhtä syviä. Aikakompleksisuus O (log n) tulee siitä, että jokaisella tasolla verrataan alkiota oikean ja vasemman alipuun kanssa, ja aina siirryttäessä seuraavalle tasolle tutkittavien solmujen määrä puolittuu.
+
+Huonoimmassa tapauksessa puu voi degeneroitua linkitetyksi listaksi. Tämä tapahtuu silloin, jos puun juurisolmu on pienin tai suurin ja muut solmut lisätään järjestyksessä. Tästä syystä Tira codersinkin taulukko sekoitetaan, eikä lisätä oikeassa järjestyksessä uuteen binääriseen hakupuuhun. Tällaisessa huonoimmassa tapauksessa algoritmin aikakompleksisuus on O(n), sillä puun jokainen alkio joudutaan käymään läpi.
+
+Mikäli puussa ei ole vielä yhtään avain arvo paria, lisätessä algoritmin aikakompleksisuus on O(1), sillä pari lisätään suoraan puun juurisolmuun.
+
+
+**Add BST vs SimpleContainer**
+
+![kuva](BST-add.png)
+![kuva](SC-add.png)
+
+Kuten kuvista ja algoritmien lähdekoodia analysoimalla huomataan, SimpleContainerin add on lineaarinen O(n), sillä ennen lisäämistä algoritmissä tarkastetaan, ettei taulukkoon lisätä duplikaatteja elementtejä. Tämän tarkistamiseksi algoritmissä käydään jokainen alkio läpi, jolloin suoritusaika on riippuvainen taulukon koosta. Tämä näkyy alemmassa kuvaajassa lineaarisena käyränä.
+
+Kuten yllä huomattiin BST add metodi taas on logaritminen O(log n). Kuvaajasta huomataankin logaritmisia piirteitä, sillä alkioiden määrän kasvaessa suureksi suoritusajan kasvu hidastuu maltilliseksi.
+
+Teoriaan pohjautuen sekä kuvaajia katsomalla voidaan todeta BST toteutuksen olevan selvästi tehokkaampi. Esimerkiksi 100000 alkion aineistolla lisäämiseen kului aikaa SimpleContainer toteutuksella kesti noin 3,5 minuuttia, kun taas BST ratkaisulla saman operaation suorittamiseen kului vain 7ms.
+
+**get(K key)**
+
+Get algoritmi saa parametrinä avaimen, jolle vastaavaa arvoa haetaan puusta ja se palautetaan, jos löydetään. Arvoa haetaan kutsumalla juurisolmulta Treenoden rekursiivinen algoritmi getValue. Tässä rekursiiviisessa algoritmissä verrataan haettavaa avainta nykyiseen avaimeen ja jos se ei ole sama, tarkistetaan kummasta alipuusta sen pitäisi löytyä ja kutsutaan rekursiivisesti algoritmiä sille alipuulle.
+
+Aikakompleksisuus:
+Paras tapaus:
+Mikäli puu on tyhjä tai haettava avain löydetään heti juurisolmusta, aikakompleksisuus on O(1).
+
+Tyypillinen tapaus:
+Puuta käydessä läpi haettavien alkioiden määrä puolittuu joka kerroksella, joten aikakompleksisuus on O(log n).
+
+Huonoimmassa tapauksessa, mikäli puu on todella epätasapainoinen ja muistuttaa linkitettyä listaa, on aikakompleksisuus O(n).
+
+
+**Haku BST vs SimpleContainer**
+
+BST haku toteutetaan get algoritmin avulla ja SimpleContainerissa binäärihaun avulla. Teoriassa kummankin pitäisi olla aikakompleksisuudeltaan O(log n). 
+
+![kuva](BST-search.png)
+![kuva](SC-search.png)
+
+Kuvista kuitenkin huomataan, että SimpleContainerin binary search on selkeästi nopeampi, kuin BST get algoritmi, vaikka aikakompleksisuus pitäisi olla sama. Suurilla aineistoilla suoritusaikojen kasvu myös näyttää hieman pienevän alemmassa binarySearch kuvaajassa. BST get käyttävää hakuoperaatiota kuvaava ylempi kuvaaja myös näyttäisi olevan enemmän lineaarinen. Tämä hitaus ja lineaarisuus voisi selittyä sillä, että puu on epätasapainossa, jolloin get algoritmin aikakompleksisuus kääntyy lineaariseksi O(n). Todennäköisesti testin puu on siis jonkinverran epätasapainossa, joka hidastaa get algoritmiä.
+
+**find(Predicate<V> searcher)**
+
+Find algoritmi tarkistaa, onko root solmu null, eli onko puussa elementtejä. Mikäli puu ei ole tyhjä, kutsutaan TreeNode luokan find algortimiä. Tämä TreeNode luokan algoritmi käy puuta läpi rekursiivisesti in-order järjestyksessä ja kokeilee elementtejä predikaatin ehdolla. Algoritmi palauttaa ensimmäisen alkion, joka täyttää predikaatin ehdon. Mikäli puu on tyhjä tai ehdon täyttävää alkiota ei löydetä, palautetaan kutsujalle null.
+
+Aikakompleksisuus:
+Paras tapaus, puu on tyhjä ja palautetaan suoraan null O(1).
+
+Normaali tapaus: Käydään solmuja läpi niin kauan in order järjestyksessä, että predikaatin täyttävä ehto löytyy. Tämä on O(n), koska kaikki alkiot käydään järjestyksessä läpi, eli suoritusaika riippuu puun koosta.
+
+Huonoin tapaus, puusta ei löydy haettavaa arvoa ja palautetaan null. Aikakompleksisuus O(n) ja jokainen solmu käydään läpi järjestyksessä.
+
+**size, capacity, clear**
+
+Nämä kaikki ovat vakioaikaisia metodeja O(1), size metodi palauttaa puhun lisättyjen solmujen laskurin arvon, ja capacity tässä tapauksessa palauttaa Integer.max, sillä binäärisellä hakupuulla on teoriassa rajaton kapasiteetti. Käytännössä tietokoneen välimuisti loppuu kesken jossain vaiheessa, jos puuhun lisätään karmea määrä solmuja. Clear metodi alustaa puun juuren tyhjäksi ja nollaa laskurimuuttujan.
+
+**toArray()**
+
+toArray algoritmi käy rekursiivisesti puun läpi in order läpikäynnillä. Jos puu on tyhjä, niin palautetaan tyhjä Pair taulukko, muuten pair oliot siirretään puusta uuteen taulukkoon avaimen mukaan in order järjestyksessä. 
+
+Aikakompleksisuus:
+Paras tapaus, puu on tyhjä ja palautetaan suoraan tyhjä taulukko O(1).
+
+Normaali tapaus, puu käydään in order järjestyksessä läpi, ja jokainen solmu lisätään avaimen mukaiseen in order järjestykseen taulukkoon. Tässä käydään järjestyksessä läpi koko puu, eli aikakompleksisuus on O(n).
+
+**To sorted array BST vs SimpleContainer**
+SimpleContainerissa lajiteltuun taulukkoon saaminen vaatii lajittelua, joka tehdään quickSort algoritmiä hyödyntämällä. BST versiossa riittää toArray kutsu, sillä toArray käy puun läpi järjestyksessä siirtäessään elementtejä taulukkoon. QuickSortin keskimääräinen aikakompleksisuus on O(n log n) ja BST toArrayn O(n), joten teoriassa BST tulisi olla nopeampi.
+
+![kuva](BST-toArray.png)
+![kuva](SC-toarray.png)
+
+Kuvaajistahan ilmenee, että BST toarray todellakin on nopeampi tapa saada lajiteltu taulukko, kuin SimpleContainerin sort metodia (quickSort) käyttämällä. Esimerkiksi 100000 aineiston kohdalla BST toArray vie aikaa 6ms, kun taas vertailtava ratkaisu vie 76ms.
+
+
+**indexOf(K itemKey)**
+
+Tässä algoritmissä parametrina annetulla avaimelle haetaan indeksin arvoa. Algortimissä käydään iteratiivisesti pino tietorakennetta hyödyntäen solmuja läpi in order järjestyksessä pitäen kirjaa solmujen indeksistä. Jokaisen solmun kohdalla ensimmäisestä alkaen tarkistetaan, että vastaako solmun avain parametrina saatua avainta. Mikäli avaimet vastaa toisiaan, niin solmua vastaava indeksi palautetaan kutsujalle.
+
+Tässäkin solmuja käydään järjestyksessä läpi siihen asti, että haettava solmu löytyy, joten suoritusaika riippuu solmujen määrästä, eli puun koosta O(n).
+
+
+**getIndex(int index)**
+
+Tämä algoritmi muistuttaa toiminnaltaan paljon yleempänä olevaa indexOf algoritmiä, mutta tässä palautetaan indeksin sijaan parametrina saadussa indeksissä oleva avain-arvo pari. Algoritmmissä käydään iteratiivisesti in order läpikäynnillä solmuja, ja palautetaan arvopari, joka on haetussa indeksissä. Mikäli indeksiä ei löydy, palautetaan null.
+
+Aikakompleksisuus: Algoritmin aikakompleksisuus on O(n), sillä solmuja käydään läpi järjestyksessä yksi kerrallaan ja suoritusaika riippuu solmujen määrästä.
+
+**getIndex BST vs SimpleContainer**
+
+![kuva](BST-getIndex.png)
+![kuva](SC-getindex.png)
+
+BST toteutus getIndex algoritmistä todettiin olevan lineaarinen O(n), mutta SimpleContaineria tarkastelemalla huomataan, että sama algoritmi on teoriassa vakioaikainen O(1), sillä taulukosta saadaan palautettua suoraan arvo kyseisestä indeksistä viittaamalla siihen lauseella array[index]. Sama huomataan kuvaajista, sillä BST kuvaajassa nähdään lineaarinen käyrä ja SimpleContainerissa suoritusajat ovat hyvin nopeita (0-1ms), yhtä aikapiikkiä lukuunottamatta. Algoritmin suorituksessa on 50000 alkion aineiston kohdalla aikapiikki 6ms, joka todennäköisesti johtuu jostain muusta syystä, tietokoneen muista samanaikaisista prosesseista, sillä tämän algoritmin pitäisi olla vakioaikainen.
+
+Teoriassa simpleContainerin tulisi olla selvästi nopeampi tässä operaatiossa ja näinhän se on kuvaajienkin perusteella. Esimerkiksi 100000 alkion tapauksessa SimpleContainerin suoritusaika oli pyöristynyt 0ms, kun taas BST sama operaatio vaati 153095ms, eli noin 2,5 minuuttia.
+
+**findIndex(Predicate<V> searcher)**
+
+Tässäkin algoritmissä käydään iteratiivisesti puuta läpi in order läpikäynnillä. Algoritmi testaa järjestyksessä täyttääkö solmussa oleva arvo predikaatin ehdon. Mikäli se täyttää, palautetaan sen indeksi ja jos ei, niin siirrytään järjestyksessä seuraavaan solmuun. Jos mikään solmu ei täytä ehtoa, niin palautetaan indeksinä -1.
+
+Aikakompleksisuus: Algoritmin aikakompleksisuus on lineaarinen O(n), sillä solmuja käydään läpi järjestyksessä yksi kerrallaan ja suoritusaika riippuu solmujen määrästä.
+
+
+**Puun teoreettinen syvyys ja toteutuksen todellinen maksimisyvyys**
+
+| n	| O(log n)	| toteutunut max	|
+|-----|--------|--------|
+| 100	 | 6	| 12	|
+| 1000 |	9	| 21	| 
+| 5000 | 12		| 28	|
+| 10000 | 13	| 29	|
+| 50000 | 15	| 39	|
+| 100000 | 19	| 37	|
+
+
+Taulukossa O(log n) sarakkeessa nähdään täysin tasapainoisen puun teoreettinen syvyys ja toteutunut max kohdassa puun todellinen maksimisyvyys.
+
+Taulukosta nähdään, että toteutunut maximi on teoreettista selvästi suurempi, joten puu ei ole tasapainoinen. Kuitenkaan suurilla aineistoilla puun maksimisyvyys ei kasva lineaarisesti, eli puu ei degeneroidu täysin linkitetyksi listaksi.
+
+**Kokemukset Tira Coder käyttöliittymässä**
+
+Ottaessani BST käyttöön Coder sovelluksessa huomasin käyttöliittymän muuttuvan hieman takertelevaksi varsinkin isoilla aineistoilla. Mielestäni käyttökokemus oli miellyttävällä tasolla, kunnes latasin miljoonan koodarin aineiston. Tällä aineistolla sort order:in vaihtaminen kesti todella kauan ja kavereiden hakeminen kesti jopa 399ms. Myös listan selaaminen.
+
+100 000 aineiston kanssa listaa pystyi selaamaan, mutta pientä takertelua oli havaittavissa, ei kuitenkaan mitään verrattuna miljoonan koodarin aineistoon. Tällä aineistolla aikaa vievin toimenpide oli järjestyksen vaihtaminen koodarinimeksi. Vaihto vei 1535ms, jonka odottamisen kyllä huomaa. Muuten hakemiset ja koodarin tietojen saamiset eivät vieneet yli 200ms.
+
+
+
 ## 08-TASK
+
+Tässä tehtävässä opin tietojen hashaamisen, eli hajautusalgoritmin käytön, sekä törmäysten käsittelyä  sekä hallintaa lineaarisella luotaamisella. Myös tehtävässä tehty täyttöasteen valvonta oli uutta, sillä aiemmin olen allokoinut taulukoihin lisää tilaa, vasta kun taulukko on täynnä. Ymmärsin, että hajautustaulussa tämä on tärkeää, jotta vältyttäisiin suurilta törmäysmääriltä.
+
+
+**Hajautusalgoritmi**
 
 Aloitin tehtävän tekemisen toteuttamalla hajautusfunktion. Aloitin toteuttamisen seuraamalla liveluennolla, sekä UUIDHashTestApp lähdekoodissa esiteltyä hajautusfunktiota. Tämä algoritmi perustuu siihen, että avaimen joka kirjaimen ascii-arvot lisätään yhteen.Kuitenkin testit ajaessa totesin, että tämän hajautusfunktion toimintakyky ei ole lähellekkään riittävän hyvä. Esimerkiksi testin suurimmalla 2000000 koodarin aineistolla duplikaatteja arvoja tuli yhteensä 1998951 kappaletta.
 
@@ -362,8 +514,84 @@ Versio 1 Coder.hashFromLive()
 Versio 2 Coder.hash()
 ![kuva](betterHash.png)
 
-Kuten kuvista näkee, versio 2 on selvästi nopeampi ja törmäyksiä tulee kokonaisuudessaan vajaa 42 000, kun taas version 1 kohdalla törmäyksiä on n. 1,2 miljardia.
+Kuten kuvista näkee, versio 2 on selvästi nopeampi ja törmäyksiä tulee kokonaisuudessaan noin 40 000, kun taas version 1 kohdalla törmäyksiä on n. 1,2 miljardia.
 
-Kummankin algoritmin aikakompleksisuus on O(n), jossa n on hajautettavan merkkijonon pituus (tässä tapauksessa id). Tämä johtuu siitä, että algoritmissä iteroidaan merkkijonon läpi kirjain kerrallaan.
+Kummankin algoritmin aikakompleksisuus on O(n), jossa n on hajautettavan merkkijonon pituus (tässä tapauksessa id). Tämä johtuu siitä, että algoritmissä iteroidaan merkkijonon läpi kirjain kerrallaan. Kuitenkaan tämä ei vaikuta HashTablen suorituskykyyn, sillä hajautusalgoritmin suoritusaika ei ole riippuvainen hajautustaulun kooosta.
 
+Nykyinen hajautusalgoritmi on selvästi parempi, mutta edelleen voisi olla parantamisen varaa. 100 alkion testissä törmäyksiä sattui hajautustauluun lisätessä 4 avaimella ja pisin törmäysketju oli 10. Suurempi ongelma on tuo törmäysketju, joka voitaisiin hoitaa paremmalla törmäystenkäsittelymenetelmällä.
+
+**Algoritmien analysointi ja oikeellisuus**
+
+**add(K key, V value)**
+
+Add algoritmi lisää hajautustauluun uuden avain-arvo parin, jos kumpikaan arvoista ei ole null. Null arvon sattuessa algoritmi heittää poikkeuksen. Mikäli lisätessä syntyy törmäyksiä, ne käsitellään lineaarisella luotaamisella. Algoritmi kutsuu myös tarvittaessa reallocate apumetodia, mikäli taulukon täyttöaste ylittää yli 60%. Allokoinnissa tiedot lisätään uudelleen uuteen taulukkoon, mikä varmistaa sen, että tiedot pysyvät oikeissa indekseissä.
+
+Aikatehokkuus:
+Parhaassa tapauksessa algoritmin aikatehokkuus on vakio, eli O(1). Tämä tilanne toteutuu silloin, kun törmäyksiä ei tule ja pari lisätään suoraan laskettuun indeksiin. Keskimääräinen tapaus on myös lähellä tätä, kun hajautusalgoritmi toimii hyvin.
+
+Huonoin tapaus: Mikäli useampi avain tai jopa kaikki avaimet tuottaa saman hashkoodin, kipuaa aikakompleksisuus neliölliseksi O(n), sillä silloin joudutaan käymään lineaarisella luotaamisella taulukon kaikki alkiot läpi.
+
+Aikatehokkuus nousee lineaariseksi myös silloin, kun täyttöaste ylittää 60%. Tämä johtuu siitä, että silloin allokoidaan taulukko kaksinkertaiseksi ja reallocate apualgoritmi on aikakompleksisuudeltaan O(n).
+
+**Hashtable vs simpleKeyedTable**
+
+Add metodi vertailutietorakenteessa on toteutettu siten, että uusi elementti lisätään aina suoraan taulukon loppuun, jolloin aikakompleksisuus on teoriassa O(1), jos ei jouduta reallokoimaan. Mikäli reallokointi tulee tehdä, aikakompleksisuus on O(n).
+
+![kuva](HT-add.png)
+![kuva](SKC-add.png)
+
+Kuvista huomataan, että vertailtava simpleKeyedContainer todellakin on nopeampi, vaikka teoriassa parhaassa tapauksessa aikakompleksisuus pitäisi olla sama. Molempien käyrät näyttävät lineaariselta, koska laajojen aineistojen testeillä joudutaan reallokoimaan usein. Tämän vuoksi todelliset aikakompleksisuudet näyttävät olevan lineaarisia O(n). 
+HashTablen hitauden selittää myös se, että lisätessä hajautustauluun tulee törmäyksiä, ja lineaarinen luotaaminen vie suorituskyvyltä tilaa. Lisäksi reallokointia tulee tehdä vielä useammin, sillä se suoritetaan täyttöasteen saavuttaessa 60%.
+
+
+**get(K key)**
+
+Get algoritmi hakee hajautustaulusta arvon parametrinä saadun avaimen perusteella. Mikäli annettu avain on null, algoritmi heittää poikkeuksen. Saadulle avaimelle lasketaan hashkoodin avulla indeksi ja tällä indeksillä etsitään vastaavaa paria hajautustaulusta. Mikäli oikeaa paria ei löydy tästä indeksistä on syntynyt törmäys, ja se käsitellään lineaarisen luotaamisen avulla. Mikäli avainta ei löydy ollenkaan, algoritmi palauttaa null. Oikean parin löytyessä palauteutaan avain-arvo parin arvo.
+
+Aikakompleksisuus:
+Parhaassa tapauksessa ei ole syntynyt törmäyksiä ollenkaan, jolloin haettava avain on heti lasketussa indeksissä. Tällöin aikakompleksisuus on vakio O(1). Hyvin toimiva hajautusfunktio mahdollistaa keskimääräisen aikakompleksisuuden olevan myös O(1).
+
+Huonoimmassa tapauksessa, mikäli törmäyksiä on syntynyt paljon, joudutaan lineaarisella luotaamisella käymään useampi alkio läpi, jolloin aikakompleksisuus voi pahimmillaan olla lineaarinen O(n).
+
+**Hashtable vs simpleKeyedTable**
+Vertailtavan tietorakenteen get algoritmina aikakompleksisuus on lineaarinen O(n), sillä siinä käydään taulukkoa läpi niin kauan, että etsittävä arvo löytyy. Sen siis pitäisi teoriassa olla hitaampi, kuin hajautustaulun.
+
+![kuva](HT-search.png)
+![kuva](SKC-search.png)
+
+Kuten kuvaajista näkee, hajautustaulun haku, eli get algoritmi on todella paljon nopeampi, kuin vertailtava simpleKeyedTable.
+
+**find(Predicate<V> searcher)**
+
+Find algoritmissä käydään hajautustaulun taulukkoa läpi yksinkertaisella silmukalla, jossa jokaisen ei tyhjän alkion kohdalla testataan, täyttääkö indeksissä oleva arvo predikaatin ehdon. Mikäli kyllä, tämä arvo palautetaan kutsujalle. Jos arvoa ei löydetä, palautetaan null.
+
+Aikakompleksisuus tässä algoritmissä on lineaarinen O(n), sillä taulukon jokainen alkio joudutaan käymään läpi, eli suoritusaika on riippuvainen taulukon koosta.
+
+**toArray()**
+
+Tämä algoritmi käy läpi taulukon ja kopioi kaikki, paitsi null arvot uuteen taulukkoon. Taulukkoon ei päädy null alkioita, toisin kuin hajautustaulun sisäisenä tietorakenteena toimivassa taulukossa on.
+
+Algoritmin aikakompleksisuus on lineaarinen O(n), sillä sen suoritusaika on riippuvainen taulukossa olevien elementtien määrästä.
+
+**Hashtable vs simpleKeyedTable**
+Kummassakin toteutuksessa toArray algoritmi on hyvin samankaltainen toiminnallisuudeltaan. Testeissä on myös käytetty samaa lajittelualgoritmiä kummallekkin tietorakenteelle.
+
+![kuva](HT-toArray.png)
+![kuva](SKC-toArray.png.)
+
+Kuvaajista huomataan, että samankaltaisesta toteutuksesta huolimatta simpleKeyedTable näyttäisi olevan jopa noin puolet nopeampi hajautustauluun verrattuna. Tämä johtuu siitä, että simpleKeyedTablen toArray algoritmi pyörii vain juuri niin pitkälle kuin on tarvetta. Tämä on mahdollista, sillä elementit ovat taulukossa järjestyksessä, joten lopussa olevia mahdollisia tyhjiä paikkoja ei tarvitse iteroida läpi.
+
+Hajautustaulussa tyhjät paikat taas ovat sekaisin pitkin taulukkoa, joten koko taulukko pitää iteroida läpi. Suuri hidastava tekijä tässä on se, että hajautustaulun taulukossa on vähintään 40% tyhjiä paikkoja, jotta törmäyksiä voitaisiin minimoida.
+
+**Privaatit apumetodit**
+
+**indexfor(int hash, int collisionCount)**
+Tämä algoritmi laskee taulukon indeksin annetulle hashkoodille ja törmäysmäärälle. Indeksin laskemisessa varmistetaan, ettei indeksi voi olla negatiivinen. 
+
+Tässä metodissa suoritetaan vain indeksin laskenta ja se on vakioaikainen O(1)
+
+**reallocate(int newCapacity)**
+Tämä apualgoritmi luo uuden taulukon, jonka kapasiteetti on annettu newCapacity. Uuteen taulukkoon lisätään arvot vanhasta taulukosta käyttämällä add(K key) algoritmiä, jotta ne sijoittuvat taulukossa oikeisiin indekseihin.
+
+Tässä käydään läpi kaikki vanhan taulun elementit, joten aikakompleksisuus on lineaarinen O(n), missä n on vanhan taulukon koko.
 ## 09-TASK
