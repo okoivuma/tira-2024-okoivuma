@@ -255,7 +255,7 @@ public class TIRACodersApp implements ActionListener {
                 PhoneBookBST bstModel = (PhoneBookBST) model;
                 TIRAKeyedOrderedContainer<String, Coder> bst = bstModel.getContainer();
                 if (null != bst) {
-                    // TODO: student: IF you like, implement a BSTAnalyzerVisitor (which is OPTIONAL).
+                    //  student: IF you like, implement a BSTAnalyzerVisitor (which is OPTIONAL).
                     long start = System.currentTimeMillis();
                     Visitor<String, Coder> visitor = BSTFactory.createBSTAnalyzerVisitor();
                     if (null != visitor) {
@@ -284,7 +284,7 @@ public class TIRACodersApp implements ActionListener {
                 PhoneBookBST bstModel = (PhoneBookBST) modelToExport;
                 TIRAKeyedOrderedContainer<String, Coder> bst = bstModel.getContainer();
                 if (null != bst) {
-                    // TODO: student: IF you like, implement a BSTToDotFileTreeVisitor (which is OPTIONAL).
+                    // student: IF you like, implement a BSTToDotFileTreeVisitor (which is OPTIONAL).
                     long start = System.currentTimeMillis();
                     Visitor<String, Coder> visitor = BSTFactory
                             .createBSTToDotFileTreeVisitor(getModel().getCurrentFileName(), "tree.dot.txt");

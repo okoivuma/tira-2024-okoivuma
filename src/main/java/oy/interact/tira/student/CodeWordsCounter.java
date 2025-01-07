@@ -17,7 +17,7 @@ import oy.interact.tira.util.TIRAKeyedContainer;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 
-// Teachers: TODO: Decide what here is left for the students to implement.
+
 // E.g. forming the words based on rules.
 
 public class CodeWordsCounter {

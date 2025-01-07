@@ -130,7 +130,7 @@ Tässä tehtävässä toteutin pino rajapinnan StackInterface omaan toteutusluok
 
 Tehtävässä vaikeinta oli poikkeuksien käsittely, sillä sen harjoittelu on ollut kohdallani liian vähäistä. Tätä tehtävää tehdessä sain hyvää kertausta poikkeusten heittämisen sekä käsittelyyn liittyen. Live luennon poikkeuksia koskevan kertauksen avulla sain paljon oppia aiheeseen liittyen.
 
-Myös StringBuilderin käyttöön liittyen kertaaminen oli tervettulletta, sillä aiemmin olen toteuttanut toString() metodit String luokkaa hyödyntäen. Tehtävässä opin, että StringBuilderin käyttö on todella paljon tehokkaampaa aiemmin käyttämääni toteutukseen verrattuna.
+Myös StringBuilderin käyttöön liittyen kertaaminen oli tervettullutta, sillä aiemmin olen toteuttanut toString() metodit String luokkaa hyödyntäen. Tehtävässä opin, että StringBuilderin käyttö on todella paljon tehokkaampaa aiemmin käyttämääni toteutukseen verrattuna.
 
 
 Pino toteutukssani seurasin tarkasti ohjeita ja se vastaakin tehtävänannon aikakompleksisuusvaatimuksia. Metodit ovat aikakompleksisuudeltaan vakioita, lukuunottamatta push(), mikäli joudutaan reallokoimaan ja toString(). Nämä kaksi ovat aikakompleksisuudeltaan lineaarisia.
@@ -222,6 +222,11 @@ Aikakompleksisuus O(n)
 
 toString metodin aikakompleksisuus on O(n), koska metodissa käydään läpi kaikki pinon sisäisen taulukon elementit, jotta niistä voidaan muodostaa merkkijono.
 Suoritusaika määräytyy pinon taulukon elementtien määrästä, joten aikakompleksisuus on O(n).
+
+**ParenthesisChecker**
+Toteurin sulkeidentarkistusalgoritmin arvosanan 2 tasolle. Tämän algoritmin tarkoituksena on tarkastella tekstin sulkumerkkejä ja erityisesti niiden oikeellisuutta. Toteutin myös toiminnallisuuden, jossa sulkuja ei käsitellä mikäli ne ovat lainausmerkkien sisällä.
+
+Tämän checkParenthesis algoritmin aikakompleksisuus on lineaarinen O(n), jossa n on tekstin koko, josta sulkujen oikeellisuutta tarkistetaan. Algoritmissä on sisäkkäin kaksi silmukkaa, mutta aikakompleksisuus pysyy lineaarisena, sillä jokainen kirjain käydään kerran läpi joko for silmukassa, tai sisemmässä do-while loopissa. Tämä johtuu siitä, että mikäli vastaan tulee lainausmerkki, käydään ennen seuraavaa lainausmerkkiä tulevat merkit läpi pelkästään do-while silmukassa. Mikäli ei olla sulkumerkkejen välissä, iteroidaan pelkästään for silmukalla.
 
 
 ## 05-TASK
@@ -615,7 +620,7 @@ Tietojen saaminen järjestettyyn taulukkoon onkin BST:ssä reilusti nopeampaa. T
 
 **milloin hajautustaulu vai BST**
 
-Hajautustaulu eroittuu edukseen erityisesti suurilla aineistoilla lisättäessä tai haettaessa elementtejä. Nämä operaatiot ovat nopeampia, kuin BST:ssä vastaavilla aineistoilla.
+Hajautustaulu erottuu edukseen erityisesti suurilla aineistoilla lisättäessä tai haettaessa elementtejä. Nämä operaatiot ovat nopeampia, kuin BST:ssä vastaavilla aineistoilla.
 
 Kuitenkin mikäli halutaan järjesteltyä tietoa, kannattaa valita BST, sillä puu varastoi tiedot järjestyksessä, kun taas hajautustaulussa tiedot ovat missä sattuu ja taulukossa on paljon tyhjiä paikkoja. Tietojen saaminen järjestettyyn taulukkoon onkin BST tietorakenteessa todella paljon nopeampaa, kuten kuvaajasta nähdään.
 

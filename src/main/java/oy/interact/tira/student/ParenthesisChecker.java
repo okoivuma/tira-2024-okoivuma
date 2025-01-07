@@ -8,7 +8,7 @@ public class ParenthesisChecker {
    }
 
    /**
-    * TODO: Implement this method which checks if the given string has matching opening and closing
+    *  Implement this method which checks if the given string has matching opening and closing
     * parentheses. It should check for matching parentheses:
 
     *   Lorem ipsum ( dolor sit {  amet, [ consectetur adipiscing ] elit, sed } do eiusmod tempor ) incididunt ut...,
@@ -36,18 +36,7 @@ public class ParenthesisChecker {
     * @throws ParenthesesException if the parentheses did not match as intended.
     */
    public static int checkParentheses(StackInterface<Character> stack, String fromString) throws ParenthesesException {
-      
-      // for each character in the input string
-      //   if character is an opening parenthesis -- one of "([{"
-      //      push it into the stack (check for failure and throw an exception if so)
-      //   else if character is a closing parenthesis -- one of ")]}"
-      //      pop the latest opening parenthesis from the stack
-      //      if pop() throws an exception, there are too many closing parentheses 
-      //      check the popped opening parenthesis against the closing parenthesis read from the string
-      //      if they do not match -- opening was { but closing was ], for example.
-      //         throw an exception, wrong kind of parenthesis were in the text (e.g. "asfa ( asdf } sadf")
-      // if the stack is not empty after all the characters have been handled
-      //   throw an exception since the string has more opening than closing parentheses.
+     
       int lines = 1;
       int column = 0;
       int parenthesesCount = 0;
@@ -55,6 +44,17 @@ public class ParenthesisChecker {
       for (int i = 0; i < fromString.length(); i++) {
 
          char c = fromString.charAt(i);
+         
+         if (c == '"') {
+            do {
+               i++;
+               if (i >= fromString.length()) {
+                  throw new ParenthesesException("Closing quotation mark is missing", lines, column, -5);
+               }
+               c = fromString.charAt(i);
+               column++;
+            } while (c != '"');
+         }
 
          if (c == '\n') {
             lines++;
